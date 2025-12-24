@@ -1,0 +1,30 @@
+{
+  "showAadhaar": {
+    "ShowAadhaar": "yes"
+  },
+  "socialMediaLinks": [
+    { "icon": "facebook", "url": "https://facebook.com" },
+    { "icon": "twitter", "url": "https://twitter.com" },
+    { "icon": "linkedin", "url": "https://linkedin.com" },
+    { "icon": "instagram", "url": "https://instagram.com" },
+    { "icon": "youtube", "url": "https://youtube.com" }
+  ],
+  "otherLinks": [
+    { "name": "Career", "route": "/career" },
+    { "name": "Customer Section", "route": "/customer-section" },
+    { "name": "Contact Us", "route": "/contact-us" }
+  ],
+  "categoryLinks": [
+    { "name": "Savings Account", "route": "/" },
+    { "name": "Deposits", "route": "/" },
+    { "name": "Loans", "route": "/" },
+    { "name": "Insurance", "route": "/" },
+    { "name": "Debit Card", "route": "/" },
+    { "name": "Debit Card Offers", "route": "/" },
+    { "name": "Investments", "route": "/" },
+    { "name": "Govt. TASC Accounts", "route": "/" },
+    { "name": "Business Loans", "route": "/" },
+    { "name": "Business Banking", "route": "/" },
+    { "name": "NRI Banking", "route": "/" }
+  ]
+}
