@@ -318,9 +318,9 @@ function ImagesGrid({ images, onImageClick }) {
                             </svg>
                         </div>
 
-                        <span className="absolute top-3 left-3 px-3 py-1 bg-indigo-600 text-white text-xs font-semibold rounded-full shadow-md">
+                        {/* <span className="absolute top-3 left-3 px-3 py-1 bg-indigo-600 text-white text-xs font-semibold rounded-full shadow-md">
                             {image.category}
-                        </span>
+                        </span> */}
                     </div>
                 </div>
             ))}
