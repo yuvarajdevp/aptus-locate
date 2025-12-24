@@ -1,9 +1,9 @@
-// components/Home/BranchCard.jsx
+// components/Home/BranchCard.jsx - Simplified (no loading state)
 "use client";
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { SquareArrowOutUpRight, Phone, ReceiptText, MapPin, Clock, Building } from "lucide-react";
+import { SquareArrowOutUpRight, Phone, ReceiptText, MapPin, Clock } from "lucide-react";
 import { slugify } from "@/lib/utils";
 
 export default function BranchCard({ branchList = [] }) {
@@ -22,21 +22,9 @@ export default function BranchCard({ branchList = [] }) {
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
                     Aptus Value Housing Finance
                 </h2>
-
-                {/* Short underline */}
                 <div className="mx-auto h-1 w-32 bg-[#1460B8] rounded"></div>
             </div>
 
-            {/* <span className="text-[#1460B8]">Branch Locations</span> */}
-            {/* <div className="inline-flex items-center space-x-2 bg-blue-50 px-6 py-2 rounded-full border border-blue-200 mt-4">
-                    <Building className="h-5 w-5 text-blue-600" />
-                    <span className="text-lg font-semibold text-blue-600">
-                        {branches.length}
-                    </span>
-                    <span className="text-gray-600">
-                        branch{branches.length !== 1 ? 'es' : ''} found
-                    </span>
-                </div> */}
             {/* Branch Grid */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {branches.map((branch, idx) => {
@@ -56,7 +44,7 @@ export default function BranchCard({ branchList = [] }) {
 
                     const hours = branch?.hours || "Mon-Fri: 10:00 AM - 4:00 PM";
 
-                    // Handle details navigation
+                    // Handle details navigation (simplified - no loading state)
                     const handleDetails = () => {
                         if (!canNavigate) return;
 
@@ -72,15 +60,11 @@ export default function BranchCard({ branchList = [] }) {
                     return (
                         <div
                             key={branch?.id || `branch-${idx}`}
-                            className="bg-white border-2 border-gray-100 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group"
+                            className="bg-white border-2 border-gray-100 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col h-full"
                         >
                             {/* Header */}
                             <div className="bg-gradient-to-r from-[#1E2A78] to-[#1460B8] text-white p-4">
-
                                 <div className="flex items-center justify-between text-sm">
-                                    {/* <span className="">
-                                        {branch?.storeCode || "N/A"}
-                                    </span> */}
                                     <h3 className="text-lg font-bold mb-1">
                                         Aptus - {branch?.locality || "Unnamed Branch"}
                                     </h3>
@@ -91,7 +75,7 @@ export default function BranchCard({ branchList = [] }) {
                             </div>
 
                             {/* Content */}
-                            <div className="p-5 space-y-4">
+                            <div className="p-5 space-y-4 flex-grow">
                                 {/* Address */}
                                 <div className="flex items-start space-x-3">
                                     <MapPin className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
@@ -122,19 +106,10 @@ export default function BranchCard({ branchList = [] }) {
                                         {hours}
                                     </p>
                                 </div>
-
-                                {/* Category Badge */}
-                                {/* {branch?.category && (
-                                    <div className="pt-2">
-                                        <span className="inline-block bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">
-                                            {branch.category}
-                                        </span>
-                                    </div>
-                                )} */}
                             </div>
 
                             {/* Action Buttons */}
-                            <div className="px-5 pb-5">
+                            <div className="px-5 pb-5 mt-auto">
                                 <div className="grid grid-cols-3 gap-2">
                                     {/* Directions */}
                                     {mapLink ? (
@@ -181,8 +156,8 @@ export default function BranchCard({ branchList = [] }) {
                                         onClick={handleDetails}
                                         disabled={!canNavigate}
                                         className={`flex flex-col items-center justify-center gap-1 border-2 rounded-xl px-3 py-2.5 transition ${canNavigate
-                                            ? "border-blue-200 text-blue-600 hover:bg-blue-50 hover:border-blue-400 cursor-pointer group"
-                                            : "border-gray-200 text-gray-400 cursor-not-allowed"
+                                                ? "border-blue-200 text-blue-600 hover:bg-blue-50 hover:border-blue-400 cursor-pointer group"
+                                                : "border-gray-200 text-gray-400 cursor-not-allowed"
                                             }`}
                                     >
                                         <ReceiptText className={`w-4 h-4 ${canNavigate ? 'group-hover:scale-110 transition' : ''}`} />
