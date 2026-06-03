@@ -374,7 +374,7 @@ export default function SearchFilters({
                     >
                         <option value="">
                             {!city
-                                ? "📍 Select City First"
+                                ? " Select City First"
                                 : branchesLoading
                                     ? "Loading..."
                                     : availableLocalities.length === 0
