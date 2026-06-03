@@ -77,7 +77,7 @@ export default function Featuredproduct({ solutioncard, branchType }) {
 
     return (
         <div id="products-section" className="bg-gray-50 py-12">
-            <div className="container-fluid mx-5 px-4">
+            <div className="mx-auto w-full max-w-screen-xl">
                 {/* Header Section */}
                 <div className="mb-8">
                     <h1 className="text-4xl font-bold text-[#252685] mb-2">
@@ -125,7 +125,7 @@ export default function Featuredproduct({ solutioncard, branchType }) {
 
                 {/* Products Grid */}
                 {totalProducts > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                         {filteredSolutions.map((solution, solIndex) => {
                             const cards = solution?.card || [];
 

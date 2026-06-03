@@ -10,16 +10,16 @@ module.exports = {
   			'branch-border-btn': '#028DE8',
   			'branch-border-btn1': '#000000',
   			primary: {
-  				light: '#4ade80',
-  				DEFAULT: 'hsl(var(--primary))',
-  				dark: '#15803d',
-  				foreground: 'hsl(var(--primary-foreground))'
+  				DEFAULT: '#19438c',
+  				foreground: '#ffffff',
+  				dark: '#0A2973',
+  				light: '#1461B9',
   			},
   			secondary: {
-  				light: '#86efac',
-  				DEFAULT: 'hsl(var(--secondary))',
-  				dark: '#14532d',
-  				foreground: 'hsl(var(--secondary-foreground))'
+  				DEFAULT: '#BDD261',
+  				foreground: '#19438c',
+  				dark: '#9bb84a',
+  				light: '#d4e88a',
   			},
   			container: {
   				center: true,

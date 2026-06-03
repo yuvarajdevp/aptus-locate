@@ -45,7 +45,7 @@ export default function CallbackPage() {
     };
 
     return (
-        <div className="w-full">
+        <div className="h-full w-full">
             {/* Background / Banner Image */}
             {/* <div className="w-full md:absolute inset-0 -z-10">
                 <div className="relative w-full h-full md:h-full">
@@ -61,7 +61,7 @@ export default function CallbackPage() {
 
             {/* Form Section */}
             <div className="w-full md:pb-10">
-                <div className="m w-full bg-white border border-blue-400 rounded-xl shadow-md p-6 mx-auto md:mx-0">
+                <div className="flex h-full min-h-full w-full min-w-0 max-w-full flex-col rounded-xl border border-blue-400 bg-white p-4 shadow-md sm:p-6 lg:min-h-[420px]">
                     <h2 className="text-xl font-bold text-center text-blue-900 mb-4">
                         Request a Call Back
                     </h2>

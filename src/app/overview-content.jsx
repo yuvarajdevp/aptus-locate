@@ -214,6 +214,7 @@ import { BranchesApi } from "@/api/branches";
 import { SolutionAPi } from "@/api/solutions";
 import Link from "next/link";
 import { slugify, parseBranchSlug } from "@/lib/utils";
+import { CALLBACK_FORM_SECTION_ID } from "@/lib/branchNav";
 
 export default async function OverviewContent({ slug }) {
     try {
@@ -289,15 +290,20 @@ export default async function OverviewContent({ slug }) {
 
         return (
             <>
-                <BannerDetails />
+                <BannerDetails
+                    state={branchState}
+                    branchType={branchType}
+                    bannerRef={storeCode || slug}
+                    scrollTargetId={CALLBACK_FORM_SECTION_ID}
+                />
 
                 {/* Breadcrumb Navigation */}
                 {breadcrumbItems.length > 1 && (
                     <div className="bg-white border-b border-gray-200">
-                        <div className="container mx-auto px-4 py-4">
-                            <nav className="flex items-center flex-wrap gap-2 text-sm">
+                        <div className="container mx-auto px-3 py-2 md:px-4 md:py-4">
+                            <nav className="flex items-center flex-wrap gap-1 text-[11px] leading-tight md:gap-2 md:text-sm">
                                 <svg
-                                    className="h-5 w-5 text-blue-500"
+                                    className="h-3.5 w-3.5 shrink-0 text-blue-500 md:h-5 md:w-5"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -319,7 +325,7 @@ export default async function OverviewContent({ slug }) {
                                     <React.Fragment key={index}>
                                         {index > 0 && (
                                             <svg
-                                                className="h-4 w-4 text-gray-400 flex-shrink-0"
+                                                className="h-3 w-3 shrink-0 text-gray-400 md:h-4 md:w-4"
                                                 fill="none"
                                                 viewBox="0 0 24 24"
                                                 stroke="currentColor"
@@ -333,13 +339,13 @@ export default async function OverviewContent({ slug }) {
                                             </svg>
                                         )}
                                         {item.active ? (
-                                            <span className="text-gray-700 font-semibold">
+                                            <span className="font-semibold text-gray-700">
                                                 {item.label}
                                             </span>
                                         ) : (
                                             <Link
                                                 href={item.href}
-                                                className="text-blue-600 hover:text-blue-800 hover:underline font-medium transition-colors"
+                                                className="font-medium text-blue-600 transition-colors hover:text-blue-800 hover:underline"
                                             >
                                                 {item.label}
                                             </Link>
@@ -350,12 +356,17 @@ export default async function OverviewContent({ slug }) {
 
                             {/* Branch Type Badge */}
                             {branchType && (
-                                <div className="mt-3 flex items-center space-x-2">
-                                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${branchType === 'HFC'
-                                            ? 'bg-green-100 text-green-800'
-                                            : 'bg-blue-100 text-blue-800'
-                                        }`}>
-                                        {branchType === 'HFC' ? 'Housing Finance Company' : 'Non-Banking Financial Company'}
+                                <div className="mt-2 flex items-center md:mt-3">
+                                    <span
+                                        className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium md:px-3 md:py-1 md:text-xs ${
+                                            branchType === "HFC"
+                                                ? "bg-green-100 text-green-800"
+                                                : "bg-blue-100 text-blue-800"
+                                        }`}
+                                    >
+                                        {branchType === "HFC"
+                                            ? "Housing Finance Company"
+                                            : "Non-Banking Financial Company"}
                                     </span>
                                 </div>
                             )}
@@ -363,13 +374,17 @@ export default async function OverviewContent({ slug }) {
                     </div>
                 )}
 
-                <div className="container mx-auto grid md:grid-cols-12 gap-6 px-4 py-6">
-                    <div className="col-span-12 md:col-span-7">
-                        <BranchDetails branchList={branchescard} slug={storeCode} />
-                    </div>
-
-                    <div className="col-span-12 md:col-span-5">
-                        <LeadForm />
+                <div
+                    id={CALLBACK_FORM_SECTION_ID}
+                    className="mx-auto w-full max-w-screen-xl scroll-mt-28 px-4 py-6"
+                >
+                    <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-12">
+                        <div className="min-w-0 lg:col-span-7">
+                            <BranchDetails branchList={branchescard} slug={storeCode} />
+                        </div>
+                        <div className="min-w-0 lg:col-span-5">
+                            <LeadForm />
+                        </div>
                     </div>
                 </div>
 
@@ -377,7 +392,7 @@ export default async function OverviewContent({ slug }) {
                 {solutioncard.length > 0 ? (
                     <Featuredproduct solutioncard={solutioncard} branchType={branchType} />
                 ) : (
-                    <div className="container mx-auto px-4 py-12">
+                    <div className="mx-auto max-w-screen-xl px-4 py-12">
                         <div className="text-center bg-gray-50 rounded-lg p-8">
                             <p className="text-gray-600 text-lg mb-2">
                                 No products available for {branchType} branches
@@ -390,14 +405,12 @@ export default async function OverviewContent({ slug }) {
                 )}
 
                 {/* Articles Section */}
-                <div className="container-fluid mx-auto px-16">
+                <div className="mx-auto w-full max-w-screen-xl px-4">
                     <ArticlesCard branchSlug={slug} />
                 </div>
 
-                {/* FAQ Section */}
-                <div className="container-fluid mx-auto">
-                    <FAQ />
-                </div>
+                {/* FAQ Section — banner is full width inside FAQ component */}
+                <FAQ />
             </>
         );
     } catch (error) {

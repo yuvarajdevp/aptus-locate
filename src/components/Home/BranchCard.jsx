@@ -156,8 +156,8 @@ export default function BranchCard({ branchList = [] }) {
                                         onClick={handleDetails}
                                         disabled={!canNavigate}
                                         className={`flex flex-col items-center justify-center gap-1 border-2 rounded-xl px-3 py-2.5 transition ${canNavigate
-                                                ? "border-blue-200 text-blue-600 hover:bg-blue-50 hover:border-blue-400 cursor-pointer group"
-                                                : "border-gray-200 text-gray-400 cursor-not-allowed"
+                                            ? "border-blue-200 text-blue-600 hover:bg-blue-50 hover:border-blue-400 cursor-pointer group"
+                                            : "border-gray-200 text-gray-400 cursor-not-allowed"
                                             }`}
                                     >
                                         <ReceiptText className={`w-4 h-4 ${canNavigate ? 'group-hover:scale-110 transition' : ''}`} />

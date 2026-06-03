@@ -3,9 +3,28 @@
 import axios from "axios";
 import { REACT_APP_BASE_URL, API_TOKEN } from "../env/env";
 
+const normalizeBaseUrl = (rawBaseUrl = "") => {
+    const trimmed = rawBaseUrl.trim().replace(/\/$/, "");
+    if (!trimmed) return "";
+    return /\/api$/i.test(trimmed) ? trimmed : `${trimmed}/api`;
+};
+
+const createHeaders = (token) => {
+    const headers = {
+        "Content-Type": "application/json",
+    };
+
+    // Add auth header only when token is present.
+    if (token?.trim()) {
+        headers.Authorization = `Bearer ${token.trim()}`;
+    }
+
+    return headers;
+};
+
 // ✅ Build the request URL safely (no double slashes)
 const apiUrlWithId = (apiurl, id) => {
-    const base = REACT_APP_BASE_URL.replace(/\/$/, "");  // remove trailing slash
+    const base = normalizeBaseUrl(REACT_APP_BASE_URL);
     const endpoint = apiurl.replace(/^\//, "");          // remove leading slash
     const finalUrl = id?.length
         ? `${base}/${endpoint}/${id}`
@@ -18,7 +37,9 @@ const apiUrlWithId = (apiurl, id) => {
 // ✅ Handle API success
 const handleResponse = (response) => {
     if (response?.status === 200) {
-        console.log("✔️ API Response:", response.data);
+        if (process.env.NODE_ENV === "development") {
+            console.log("✔️ API Response:", JSON.stringify(response.data, null, 2));
+        }
         return response.data;
     }
     console.warn("⚠️ Unexpected API status:", response?.status);
@@ -80,42 +101,27 @@ const senderRequest = async (
         switch (method.toLowerCase()) {
             case "get":
                 response = await axios.get(url, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                    },
+                    headers: createHeaders(token),
                 });
                 break;
             case "post":
                 response = await axios.post(url, body, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                    },
+                    headers: createHeaders(token),
                 });
                 break;
             case "put":
                 response = await axios.put(url, body, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                    },
+                    headers: createHeaders(token),
                 });
                 break;
             case "delete":
                 response = await axios.delete(url, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                    },
+                    headers: createHeaders(token),
                 });
                 break;
             case "patch":
                 response = await axios.patch(url, body, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                    },
+                    headers: createHeaders(token),
                 });
                 break;
             default:

@@ -22,9 +22,9 @@ export default async function ArticlesCard({ branchSlug }) {
 
     console.log("displayBlogs:", baseArticlesPath);
     return (
-        <div className="py-12">
+        <div className="w-full py-12">
             {/* Header */}
-            <div className="flex justify-between items-center mb-8">
+            <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <h2 className="text-4xl font-bold text-[#252685] mb-2">
                         Latest Articles
@@ -44,7 +44,7 @@ export default async function ArticlesCard({ branchSlug }) {
             </div>
 
             {/* Articles Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {displayBlogs.map((blog) => {
                     const imageUrl = blog.image?.url || 'https://aptusindia.com/wp-content/uploads/2022/01/aptuslogo-new-modified.svg';
                     const publishDate = new Date(

@@ -20,6 +20,13 @@ export default function SearchFilters({
     // Track initialization
     const hasInitialized = useRef(false);
 
+    useEffect(() => {
+        if (typeof window === "undefined") return;
+        if (window.location.hash !== "#branch-search") return;
+        const el = document.getElementById("branch-search");
+        el?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, []);
+
     // Fetch data from API
     const { data: statesData, isLoading: statesLoading } = useStates();
     const { data: citiesData, isLoading: citiesLoading } = useCities(state);
@@ -252,7 +259,10 @@ export default function SearchFilters({
     const canSearch = state && city && selectedTypes.length > 0 && cityBranches && cityBranches.length > 0;
 
     return (
-        <div className="container bg-gradient-to-br from-blue-50 to-indigo-50 p-6 md:p-8 rounded-xl shadow-lg mx-auto mt-8 mb-6 border border-blue-100">
+        <div
+            id="branch-search"
+            className="container scroll-mt-28 bg-gradient-to-br from-blue-50 to-indigo-50 p-6 md:p-8 rounded-xl shadow-lg mx-auto mt-8 mb-6 border border-blue-100"
+        >
             {/* Header */}
             <div className="text-center mb-6">
                 <h2 className="text-xl md:text-3xl font-bold text-gray-800 mb-2">

@@ -7,6 +7,7 @@ import AptusLogo from '../../public/aptus_logo.webp';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from "next/link";
 import UnderLine from "@/components/UnderLine";
+import MobileBranchNav from "@/layout/MobileBranchNav";
 import { useEffect, useState } from "react";
 
 export default function Header() {
@@ -113,19 +114,19 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
-      <div className="max-w-screen-xl mx-auto flex items-center justify-between px-4 py-3">
-        <div>
-          <Link href="/">
+    <header className="sticky top-0 z-50 w-full bg-white shadow-sm">
+      <div className="mx-auto flex max-w-screen-xl items-center justify-center px-4 py-3 md:justify-between">
+        <div className="md:flex-none">
+          <Link href="/" className="inline-block">
             <Image
               src={AptusLogo}
               alt="Aptus Logo"
-              className="w-[120px] md:w-[170px] h-auto img-fluid"
+              className="h-auto w-[120px] img-fluid md:w-[170px]"
             />
           </Link>
         </div>
 
-        <div className="flex align-middle justify-evenly gap-10">
+        <div className="hidden md:flex align-middle justify-evenly gap-10">
           {shouldDisplayButton &&
             navList.map((data, index) => {
               const baseUrl = getUrl();
@@ -159,7 +160,7 @@ export default function Header() {
                       className="text-decoration-none nav text-dark cursor-pointer"
                       {...(data.name === "Offers" ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                     >
-                      <span className={`${active ? 'text-[rgb(25, 67, 140)] font-bold' : 'text-black'} p-1`}>
+                      <span className={`${active ? 'font-bold text-primary' : 'text-black'} p-1`}>
                         {data.name}
                       </span>
                     </a>
@@ -172,15 +173,10 @@ export default function Header() {
             })}
         </div>
 
-        <div>
-          {/* <Link
-            href="#"
-            className="text-base px-4 py-2 flex items-center align-baseline border bg-indigo-500 text-white hover:bg-indigo-600 hover:text-white rounded-md transition"
-          >
-            Download Brochure
-          </Link> */}
-        </div>
+        <div className="hidden md:block w-[170px]" aria-hidden />
       </div>
+
+      {shouldDisplayButton && <MobileBranchNav />}
     </header>
   );
 }

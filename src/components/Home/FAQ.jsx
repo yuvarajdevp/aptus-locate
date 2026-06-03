@@ -65,25 +65,25 @@ export default function FAQ() {
 
     return (
         <>
+            <section className="my-12 w-full overflow-hidden md:my-20">
+                <Image
+                    src={banner_app}
+                    alt="Aptus Bandhu Partner app"
+                    width={1920}
+                    height={400}
+                    className="h-auto w-full object-cover object-center"
+                    priority
+                />
+            </section>
 
-            <div className="container-fluid my-20">
-                <div className="m-0 p-0">
-                    <Image
-                        src={banner_app}
-                        alt="Logo"
-                        className="w-full h-full object-cover"
-                    />
-                </div>
-            </div>
-
-            <div className="container mx-auto">
+            <div className="container mx-auto max-w-screen-xl px-4">
 
 
                 <h2 className="text-3xl font-bold mb-10 text-start text-[#002F6C] text-[40px]">
                     Frequently Asked Questions
                 </h2>
 
-                <div className="max-w mx-auto p-8 bg-[#E8FAFF] rounded-xl ">
+                <div className="max-w mx-auto  bg-[#E8FAFF] rounded-xl px-lg-8 px-2">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {[firstCol, secondCol].map((col, colIndex) => (
                             <Accordion

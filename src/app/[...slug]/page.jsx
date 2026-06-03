@@ -5,6 +5,7 @@ import React from "react";
 import { redirect } from "next/navigation";
 import Header from "@/layout/Header";
 import Footer from "@/layout/Footer";
+import MobileActions from "@/layout/MobileActions";
 import OverviewContent from "@/app/overview-content";
 import Articles from "@/app/articles";
 import SingleArticle from "@/app/single-article"; // ✅ NEW
@@ -15,7 +16,8 @@ import NotFound from "@/app/not-found";
 import { handleLayoutApi } from "@/api/layout";
 
 export default async function DynamicPage({ params }) {
-    const slug = params?.slug || [];
+    const resolvedParams = await params;
+    const slug = resolvedParams?.slug || [];
     const lastSegment = slug[slug.length - 1];
     const secondLastSegment = slug[slug.length - 2];
     const storeCode = slug[0]; // First segment is always the branch
@@ -37,8 +39,11 @@ export default async function DynamicPage({ params }) {
         return (
             <>
                 <Header />
-                <SingleArticle articleSlug={articleSlug} branchSlug={branchSlug} />
+                <div className="pb-28 md:pb-0">
+                    <SingleArticle articleSlug={articleSlug} branchSlug={branchSlug} />
+                </div>
                 <Footer aboutDetails={await handleLayoutApi().then(r => r?.data || {})} />
+                <MobileActions />
             </>
         );
     }
@@ -62,7 +67,7 @@ export default async function DynamicPage({ params }) {
                 return <ProductContent slug={storeCode} />;
             case "articles":
                 // Articles list page: /branch-slug/articles
-                return <Articles params={params} />;
+                return <Articles params={resolvedParams} />;
             case "gallery":
                 // Articles list page: /branch-slug/articles
                 return <Gallery />;
@@ -74,8 +79,9 @@ export default async function DynamicPage({ params }) {
     return (
         <>
             <Header />
-            <div>{getPageContent()}</div>
+            <div className="pb-28 md:pb-0">{getPageContent()}</div>
             <Footer aboutDetails={layout} />
+            <MobileActions />
         </>
     );
 }

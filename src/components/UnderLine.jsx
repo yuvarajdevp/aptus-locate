@@ -4,14 +4,11 @@ const UnderLine = ({ Linewidth, left, active }) => {
     return (
         <div>
             <hr
-                className={`mobileView ${left === "true" ? "" : "mx-auto my-auto"} mt-2 mb-0`}
+                className={`mobileView bg-primary ${left === "true" ? "" : "mx-auto my-auto"} mt-2 mb-0 border-0 opacity-100`}
                 style={{
-                    background: 'rgb(25, 67, 140)',
-                    opacity: "1",
                     width: Linewidth ? Linewidth : "10%",
-                    height: '3px',
+                    height: "3px",
                     borderRadius: "200px",
-                    border: "1px solid"
                 }}
             />
         </div>

@@ -18,8 +18,8 @@ const Footer = ({ aboutDetails }) => {
   return (
     <>
       {/* ✅ About Section */}
-      <section className="container mx-auto py-10 text-center">
-        <h2 className="text-4xl font-bold text-[#0A2973] mb-6">
+      <section className="container mx-auto py-10 text-center px-lg-0 px-2">
+        <h2 className="text-4xl font-bold text-primary mb-6">
           {aboutDetails?.about}
         </h2>
         <p>{aboutDetails?.aboutDetail}</p>
@@ -27,7 +27,7 @@ const Footer = ({ aboutDetails }) => {
 
       {/* ✅ Tags Section */}
       <section className="py-10 text-center">
-        <h2 className="text-4xl font-bold text-[#0A2973] mb-6">
+        <h2 className="text-4xl font-bold text-primary mb-6">
           Popular searches
         </h2>
         <ul className="container mx-auto flex flex-wrap justify-center gap-5">
@@ -48,7 +48,7 @@ const Footer = ({ aboutDetails }) => {
         </ul>
       </section>
       {/* ✅ Footer Bottom */}
-      <footer className="bg-[#1461B9] text-white mt-10">
+      <footer className="mt-10 bg-primary text-primary-foreground">
         <div className="container mx-auto flex flex-wrap justify-between py-5 text-sm">
           <p>All rights reserved &copy; {new Date().getFullYear()}</p>
           <p>Powered by Tuskmelon</p>

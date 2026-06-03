@@ -53,8 +53,11 @@ export default async function ProductContent({ slug }) {
 
     return (
         <>
-            <BannerDetails />
-
+            <BannerDetails
+                state={branchescard?.state?.state}
+                branchType={branchType}
+                bannerRef={storeCode || slug}
+            />
 
             {/* Breadcrumb for Products Page */}
             {/* <div className="bg-white border-b border-gray-200">

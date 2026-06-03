@@ -16,7 +16,7 @@ import senderRequest from "@/services/Http";
 
 export const handleBlogsApi = async () => {
   try {
-    const apiUrl = `Blogs?populate=*`;
+    const apiUrl = `blogs?populate=*`;
     const response = await senderRequest("get", apiUrl);
     console.log(response, "blogs API response");
     return response;
@@ -29,7 +29,7 @@ export const handleBlogsApi = async () => {
 // Optional: Add function to get single blog by slug or ID
 export const getBlogBySlug = async (slug) => {
   try {
-    const apiUrl = `Blogs?filters[slug][$eq]=${slug}&populate=*`;
+    const apiUrl = `blogs?filters[slug][$eq]=${slug}&populate=*`;
     const response = await senderRequest("get", apiUrl);
     return response?.data?.[0] || null;
   } catch (error) {
@@ -41,7 +41,7 @@ export const getBlogBySlug = async (slug) => {
 // Optional: Add function to filter blogs by type
 export const getBlogsByType = async (type) => {
   try {
-    const apiUrl = `Blogs?filters[type][$eq]=${type}&populate=*`;
+    const apiUrl = `blogs?filters[type][$eq]=${type}&populate=*`;
     const response = await senderRequest("get", apiUrl);
     return response;
   } catch (error) {

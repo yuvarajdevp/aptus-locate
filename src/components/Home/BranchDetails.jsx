@@ -76,7 +76,7 @@ export default function BranchDetails({ branchList, slug }) {
     const address = branch.address || "";
     const postcode = branch.postcode || "";
     const phone = branch.phone || "";
-    const hours = branch.hours || "Open 10 AM - Close 4 PM";
+    const hours = branch.hours || "Open 9:30 AM - Close 5:30 PM";
     const mapLink = branch.mapLink || "";
     const branchName = branch.branch_name || locality || "Branch";
 
@@ -115,77 +115,99 @@ export default function BranchDetails({ branchList, slug }) {
         }
     };
     const companyName =
-        branchList?.type === "NBFC"
+        branch?.type === "NBFC"
             ? "Aptus Finance India Private Limited"
             : "Aptus Value Housing Finance India";
 
+    const actionBtnClass =
+        "flex min-w-0 flex-1 flex-row items-center justify-center gap-1.5 rounded-2xl px-2 py-2.5 text-[11px] font-medium transition-colors sm:gap-2 sm:rounded-full sm:px-3 sm:py-3 sm:text-sm";
 
     return (
-        <section className="container py-1  mx-auto">
-            <div className="rounded-2xl shadow overflow-hidden">
-                <div className="bg-[#6F75E0] text-white p-4">
-                    <h2 className="text-center text-2xl font-bold">
+        <section className="h-full w-full min-w-0 max-w-full py-1">
+            <div className="h-full overflow-hidden rounded-2xl shadow">
+                <div className="bg-[#6F75E0] px-3 py-4 text-white sm:px-4">
+                    <h2 className="text-center text-base font-bold leading-snug break-words sm:text-lg md:text-2xl">
                         {companyName} - {branchName}
                     </h2>
                 </div>
 
-                <div className="bg-[#F6FAFF] grid md:grid-cols-3 gap-6 p-10">
-                    <div className="md:col-span-2 space-y-4">
-                        <div className=" p-4 rounded-lg ">
-                            <p><strong>📍 Address:</strong> {fullAddress}</p>
+                <div className="grid grid-cols-1 gap-6 bg-[#F6FAFF] p-4 sm:p-6 lg:grid-cols-3 lg:p-8">
+                    <div className="min-w-0 space-y-3 lg:col-span-2 lg:space-y-4">
+                        <div className="rounded-lg p-3 sm:p-4">
+                            <p className="break-words text-sm leading-relaxed sm:text-base">
+                                <strong>📍 Address:</strong> {fullAddress}
+                            </p>
                         </div>
-                        <div className=" p-4 rounded-lg ">
-                            <p><strong>📞 Phone:</strong> {phone || "Not available"}</p>
+                        <div className="rounded-lg p-3 sm:p-4">
+                            <p className="text-sm sm:text-base">
+                                <strong>📞 Phone:</strong> {phone || "Not available"}
+                            </p>
                         </div>
-                        <div className=" p-4 rounded-lg ">
-                            <p><strong>⏰ Hours:</strong> {hours}</p>
+                        <div className="rounded-lg p-3 sm:p-4">
+                            <p className="text-sm sm:text-base">
+                                <strong>⏰ Hours:</strong> {hours}
+                            </p>
                         </div>
 
-                        <div className="flex gap-4 pt-4">
-                            {phoneLink ? (
-                                <Link
-                                    href={phoneLink}
-                                    className="flex-1 flex items-center justify-center gap-2 bg-[#1460B8] text-white rounded-full px-6 py-3 hover:bg-blue-700 transition-colors"
-                                >
-                                    <Phone size={18} />Call Now
-                                </Link>
-                            ) : (
-                                <button
-                                    disabled
-                                    className="flex-1 flex items-center justify-center gap-2 bg-gray-300 text-gray-600 rounded-full px-6 py-3 cursor-not-allowed"
-                                >
-                                    <Phone size={18} />No Phone
-                                </button>
-                            )}
-
+                        <div className="flex flex-row gap-2 pt-2 md:gap-3 md:pt-4">
                             {validMapLink ? (
                                 <Link
                                     href={mapLink}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex-1 flex items-center justify-center gap-1 border rounded-full px-3 py-2 text-sm text-[#595959] border-blue-400 hover:bg-blue-50 transition"
+                                    className={`${actionBtnClass} border border-blue-400 bg-white text-[#1460B8] hover:bg-blue-50`}
                                 >
-                                    <SquareArrowOutUpRight className="w-4 h-4" />
-                                    Direction
+                                    <SquareArrowOutUpRight className="h-4 w-4 shrink-0" />
+                                    <span className="truncate">Directions</span>
                                 </Link>
                             ) : (
-                                <button disabled className="flex-1 flex items-center justify-center gap-1 border rounded-full px-3 py-2 text-sm text-gray-400 border-gray-300 cursor-not-allowed">
-                                    <SquareArrowOutUpRight className="w-4 h-4" />
-                                    Direction
+                                <button
+                                    type="button"
+                                    disabled
+                                    className={`${actionBtnClass} cursor-not-allowed border border-gray-300 bg-white text-gray-400`}
+                                >
+                                    <SquareArrowOutUpRight className="h-4 w-4 shrink-0" />
+                                    <span className="truncate">Directions</span>
                                 </button>
                             )}
+
+                            {phoneLink ? (
+                                <Link
+                                    href={phoneLink}
+                                    className={`${actionBtnClass} border border-blue-400 bg-white text-[#1460B8] hover:bg-blue-50`}
+                                >
+                                    <Phone size={16} className="shrink-0" />
+                                    <span className="truncate">Call</span>
+                                </Link>
+                            ) : (
+                                <button
+                                    type="button"
+                                    disabled
+                                    className={`${actionBtnClass} cursor-not-allowed border border-gray-300 bg-white text-gray-400`}
+                                >
+                                    <Phone size={16} className="shrink-0" />
+                                    <span className="truncate">Call</span>
+                                </button>
+                            )}
+
                             <button
+                                type="button"
                                 onClick={handleShare}
-                                className="flex-1 flex items-center justify-center gap-2 border border-blue-400 text-[#595959] rounded-full  hover:bg-blue-50 transition-colors"
+                                className={`${actionBtnClass} border border-blue-400 bg-white text-[#1460B8] hover:bg-blue-50`}
                             >
-                                <Share2 size={18} />Share
+                                <Share2 size={16} className="shrink-0" />
+                                <span className="truncate">Share</span>
                             </button>
                         </div>
                     </div>
 
-                    <div className="flex flex-col items-center justify-center rounded-lg shadow-sm p-6">
-                        <Image src={qr} alt="QR Code" className="w-40 h-40 object-contain mb-4" />
-                        <p className="font-semibold">Scan QR Code</p>
+                    <div className="flex flex-col items-center justify-center rounded-lg p-4 lg:p-6">
+                        <Image
+                            src={qr}
+                            alt="QR Code"
+                            className="mb-3 h-32 w-32 object-contain sm:mb-4 sm:h-40 sm:w-40"
+                        />
+                        <p className="text-sm font-semibold sm:text-base">Scan QR Code</p>
                     </div>
                 </div>
             </div>
