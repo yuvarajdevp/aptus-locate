@@ -6,6 +6,7 @@ import BranchContainer from "@/components/Home/BranchContainer";
 import { BranchesApi } from "@/api/branches";
 import Header from "@/layout/Header";
 import Footer from "@/layout/Footer";
+import MobileActions from "@/layout/MobileActions";
 import { handleLayoutApi } from "@/api/layout";
 import { unslugify, slugify } from "@/lib/utils";
 import Link from "next/link";
@@ -84,7 +85,7 @@ export default async function LocationPage({ params }) {
     const pageTitle = [displayLocality, displayCity, displayState].filter(Boolean).join(", ") || "All Locations";
 
     return (
-        <>
+        <div className="pb-24 md:pb-0">
             <Header />
 
             {/* Breadcrumb */}
@@ -166,6 +167,7 @@ export default async function LocationPage({ params }) {
             />
 
             <Footer aboutDetails={layout} />
-        </>
+            <MobileActions />
+        </div>
     );
 }

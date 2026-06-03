@@ -26,25 +26,25 @@ const Footer = ({ aboutDetails }) => {
       </section>
 
       {/* ✅ Tags Section */}
-      <section className="py-10 text-center">
-        <h2 className="text-4xl font-bold text-primary mb-6">
+      <section className="px-4 py-8 text-center md:py-10">
+        <h2 className="mb-4 text-xl font-bold text-primary md:mb-6 md:text-4xl">
           Popular searches
         </h2>
-        <ul className="container mx-auto flex flex-wrap justify-center gap-5">
+        <ul className="mx-auto grid w-full max-w-screen-xl grid-cols-2 gap-2 md:flex md:flex-wrap md:justify-center md:gap-4">
           {aboutDetails?.tags?.map((tag, i) => (
-            <li key={i}>
+            <li key={i} className="min-w-0">
               {tag?.name && (
                 <Link
                   href={tag.link || "/"}
-                  className={`px-4 py-2 rounded-2xl text-black text-[16px] font-medium ${tag.name ? colors[i % colors.length] : ""
-                    } hover:opacity-80 transition inline-block`}
+                  className={`block w-full rounded-xl px-2 py-1.5 text-[11px] font-medium leading-tight text-black transition hover:opacity-80 md:inline-block md:w-auto md:rounded-2xl md:px-4 md:py-2 md:text-base ${
+                    tag.name ? colors[i % colors.length] : ""
+                  }`}
                 >
                   {tag.name}
                 </Link>
               )}
             </li>
           ))}
-
         </ul>
       </section>
       {/* ✅ Footer Bottom */}

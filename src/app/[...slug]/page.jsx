@@ -37,14 +37,12 @@ export default async function DynamicPage({ params }) {
         const articleSlug = lastSegment;
         const branchSlug = slug.slice(0, -2).join('/'); // Everything before /articles/article-slug
         return (
-            <>
+            <div className="pb-24 md:pb-0">
                 <Header />
-                <div className="pb-28 md:pb-0">
-                    <SingleArticle articleSlug={articleSlug} branchSlug={branchSlug} />
-                </div>
+                <SingleArticle articleSlug={articleSlug} branchSlug={branchSlug} />
                 <Footer aboutDetails={await handleLayoutApi().then(r => r?.data || {})} />
                 <MobileActions />
-            </>
+            </div>
         );
     }
 
@@ -77,11 +75,11 @@ export default async function DynamicPage({ params }) {
     };
 
     return (
-        <>
+        <div className="pb-24 md:pb-0">
             <Header />
-            <div className="pb-28 md:pb-0">{getPageContent()}</div>
+            {getPageContent()}
             <Footer aboutDetails={layout} />
             <MobileActions />
-        </>
+        </div>
     );
 }

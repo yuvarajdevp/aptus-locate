@@ -45,7 +45,7 @@ export default function CallbackPage() {
     };
 
     return (
-        <div className="h-full w-full">
+        <div className="flex h-full w-full flex-col">
             {/* Background / Banner Image */}
             {/* <div className="w-full md:absolute inset-0 -z-10">
                 <div className="relative w-full h-full md:h-full">
@@ -60,13 +60,13 @@ export default function CallbackPage() {
             </div> */}
 
             {/* Form Section */}
-            <div className="w-full md:pb-10">
-                <div className="flex h-full min-h-full w-full min-w-0 max-w-full flex-col rounded-xl border border-blue-400 bg-white p-4 shadow-md sm:p-6 lg:min-h-[420px]">
-                    <h2 className="text-xl font-bold text-center text-blue-900 mb-4">
+            <div className="flex h-full w-full flex-col pb-0 md:pb-10 lg:pb-0">
+                <div className="flex h-full min-h-0 w-full min-w-0 max-w-full flex-col rounded-xl border border-blue-400 bg-white p-4 shadow-md sm:p-6">
+                    <h2 className="mb-4 shrink-0 text-center text-xl font-bold text-blue-900">
                         Request a Call Back
                     </h2>
 
-                    <form onSubmit={handleSubmit} className="space-y-4">
+                    <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col gap-4">
                         {/* Full Name */}
                         <div>
                             <input
@@ -147,7 +147,7 @@ export default function CallbackPage() {
                         {/* Submit */}
                         <button
                             type="submit"
-                            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-full"
+                            className="mt-auto w-full rounded-full bg-blue-600 py-2 font-semibold text-white hover:bg-blue-700"
                         >
                             Submit
                         </button>

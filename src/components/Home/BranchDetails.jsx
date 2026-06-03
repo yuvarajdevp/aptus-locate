@@ -2,9 +2,15 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { SquareArrowOutUpRight, Phone, Share2 } from "lucide-react";
+import {
+    SquareArrowOutUpRight,
+    Phone,
+    Share2,
+    MapPin,
+    Clock,
+    CalendarDays,
+} from "lucide-react";
 import qr from "@/assets/qr.png";
-
 export default function BranchDetails({ branchList, slug }) {
     // Enhanced debugging
     console.log("=== BranchDetails Debug ===");
@@ -75,8 +81,15 @@ export default function BranchDetails({ branchList, slug }) {
     const locality = branch.locality || "";
     const address = branch.address || "";
     const postcode = branch.postcode || "";
-    const phone = branch.phone || "";
-    const hours = branch.hours || "Open 9:30 AM - Close 5:30 PM";
+    const phone =
+        branch.phone ||
+        branch.contact_number ||
+        branch.contactNumber ||
+        branch.mobile ||
+        "";
+    const phoneTrimmed = String(phone).trim();
+    const hours = branch.hours || "Open 9:30 AM - Close 4:30 PM";
+    const weeklyOffText = "Monday to Saturday, Except 2nd Saturday. ";
     const mapLink = branch.mapLink || "";
     const branchName = branch.branch_name || locality || "Branch";
 
@@ -91,11 +104,11 @@ export default function BranchDetails({ branchList, slug }) {
         locality,
         address,
         postcode,
-        phone,
+        phone: phoneTrimmed,
         fullAddress
     });
 
-    const phoneLink = phone ? `tel:${phone}` : null;
+    const phoneLink = phoneTrimmed ? `tel:${phoneTrimmed}` : null;
     const validMapLink = mapLink?.startsWith("http") ? mapLink : null;
 
     const handleShare = async () => {
@@ -122,34 +135,60 @@ export default function BranchDetails({ branchList, slug }) {
     const actionBtnClass =
         "flex min-w-0 flex-1 flex-row items-center justify-center gap-1.5 rounded-2xl px-2 py-2.5 text-[11px] font-medium transition-colors sm:gap-2 sm:rounded-full sm:px-3 sm:py-3 sm:text-sm";
 
+    const infoRowClass =
+        "flex items-start gap-3 text-sm leading-relaxed text-gray-900 sm:text-base";
+    const infoIconClass = "mt-0.5 h-5 w-5 shrink-0 text-primary";
+
     return (
-        <section className="h-full w-full min-w-0 max-w-full py-1">
-            <div className="h-full overflow-hidden rounded-2xl shadow">
-                <div className="bg-[#6F75E0] px-3 py-4 text-white sm:px-4">
+        <section className="flex h-full w-full min-w-0 max-w-full flex-col py-1">
+            <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-gray-200 shadow-sm">
+                <div className="shrink-0 bg-[#6F75E0] px-3 py-4 text-white sm:px-4">
                     <h2 className="text-center text-base font-bold leading-snug break-words sm:text-lg md:text-2xl">
                         {companyName} - {branchName}
                     </h2>
                 </div>
 
-                <div className="grid grid-cols-1 gap-6 bg-[#F6FAFF] p-4 sm:p-6 lg:grid-cols-3 lg:p-8">
-                    <div className="min-w-0 space-y-3 lg:col-span-2 lg:space-y-4">
-                        <div className="rounded-lg p-3 sm:p-4">
-                            <p className="break-words text-sm leading-relaxed sm:text-base">
-                                <strong>📍 Address:</strong> {fullAddress}
-                            </p>
-                        </div>
-                        <div className="rounded-lg p-3 sm:p-4">
-                            <p className="text-sm sm:text-base">
-                                <strong>📞 Phone:</strong> {phone || "Not available"}
-                            </p>
-                        </div>
-                        <div className="rounded-lg p-3 sm:p-4">
-                            <p className="text-sm sm:text-base">
-                                <strong>⏰ Hours:</strong> {hours}
+                <div className="flex min-h-0 flex-1 flex-col bg-[#F6FAFF] p-4 sm:p-5 lg:flex-row lg:items-stretch lg:gap-6 lg:p-6">
+                    <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-3 lg:gap-4">
+                        <div className={infoRowClass}>
+                            <MapPin className={infoIconClass} aria-hidden />
+                            <p className="min-w-0 break-words">
+                                <span className="font-semibold text-gray-900">Address:</span>{" "}
+                                {fullAddress}
                             </p>
                         </div>
 
-                        <div className="flex flex-row gap-2 pt-2 md:gap-3 md:pt-4">
+                        <div className={infoRowClass}>
+                            <Phone className={infoIconClass} aria-hidden />
+                            <p className="min-w-0">
+                                <span className="font-semibold text-gray-900">Phone:</span>{" "}
+                                {phoneTrimmed && phoneLink ? (
+                                    <a href={phoneLink} className="text-primary hover:underline">
+                                        {phoneTrimmed}
+                                    </a>
+                                ) : (
+                                    <span className="text-gray-600">Not available</span>
+                                )}
+                            </p>
+                        </div>
+
+                        <div className={infoRowClass}>
+                            <Clock className={infoIconClass} aria-hidden />
+                            <p className="min-w-0">
+                                <span className="font-semibold text-gray-900">Hours:</span>{" "}
+                                {hours}
+                            </p>
+                        </div>
+
+                        <div className={infoRowClass}>
+                            <CalendarDays className={infoIconClass} aria-hidden />
+                            <p className="min-w-0">
+                                <span className="font-semibold text-gray-900">Branch timings:</span>{" "}
+                                {weeklyOffText}
+                            </p>
+                        </div>
+
+                        <div className="mt-auto flex flex-row gap-2 pt-2 lg:pt-3">
                             {validMapLink ? (
                                 <Link
                                     href={mapLink}
@@ -201,13 +240,15 @@ export default function BranchDetails({ branchList, slug }) {
                         </div>
                     </div>
 
-                    <div className="flex flex-col items-center justify-center rounded-lg p-4 lg:p-6">
+                    <div className="mt-4 flex shrink-0 flex-col items-center justify-center border-t border-[#d6e4f5] pt-4 lg:mt-0 lg:w-[180px] lg:justify-center lg:self-stretch lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0">
                         <Image
                             src={qr}
                             alt="QR Code"
-                            className="mb-3 h-32 w-32 object-contain sm:mb-4 sm:h-40 sm:w-40"
+                            className="mb-2 h-28 w-28 object-contain lg:h-36 lg:w-36"
                         />
-                        <p className="text-sm font-semibold sm:text-base">Scan QR Code</p>
+                        <p className="text-sm font-semibold text-gray-800 sm:text-base">
+                            Scan QR Code
+                        </p>
                     </div>
                 </div>
             </div>

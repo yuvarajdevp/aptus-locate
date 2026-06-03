@@ -77,7 +77,7 @@ export default function Featuredproduct({ solutioncard, branchType }) {
 
     return (
         <div id="products-section" className="bg-gray-50 py-12">
-            <div className="mx-auto w-full max-w-screen-xl">
+            <div className="mx-auto w-full max-w-screen-xl px-4">
                 {/* Header Section */}
                 <div className="mb-8">
                     <h1 className="text-4xl font-bold text-[#252685] mb-2">

@@ -378,8 +378,8 @@ export default function SearchFilters({
                                 : branchesLoading
                                     ? "Loading..."
                                     : availableLocalities.length === 0
-                                        ? "📍 No localities available"
-                                        : "📍 All Localities"
+                                        ? " No localities available"
+                                        : " All Localities"
                             }
                         </option>
                         {availableLocalities.map((l, idx) => (

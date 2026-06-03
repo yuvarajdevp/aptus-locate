@@ -378,11 +378,11 @@ export default async function OverviewContent({ slug }) {
                     id={CALLBACK_FORM_SECTION_ID}
                     className="mx-auto w-full max-w-screen-xl scroll-mt-28 px-4 py-6"
                 >
-                    <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-12">
-                        <div className="min-w-0 lg:col-span-7">
+                    <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-stretch">
+                        <div className="flex min-h-0 min-w-0 flex-col lg:col-span-7">
                             <BranchDetails branchList={branchescard} slug={storeCode} />
                         </div>
-                        <div className="min-w-0 lg:col-span-5">
+                        <div className="flex min-h-0 min-w-0 flex-col lg:col-span-5">
                             <LeadForm />
                         </div>
                     </div>

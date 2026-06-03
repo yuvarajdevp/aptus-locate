@@ -7,7 +7,6 @@ import BranchContainer from "@/components/Home/BranchContainer";
 import { BranchesApi } from "@/api/branches";
 import Header from "@/layout/Header";
 import Footer from "@/layout/Footer";
-import MobileActions from "@/layout/MobileActions";
 import { handleLayoutApi } from "@/api/layout";
 
 export default async function Home() {
@@ -23,7 +22,7 @@ export default async function Home() {
         console.log("Home - Total branches:", branchList.length);
 
         return (
-            <div className="pb-28 md:pb-0">
+            <div>
                 <Header />
                 <BranchContainer
                     branchList={branchList}
@@ -31,7 +30,6 @@ export default async function Home() {
                     filters={{}}
                 />
                 <Footer aboutDetails={layout} />
-                <MobileActions />
             </div>
         );
     } catch (error) {

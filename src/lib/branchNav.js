@@ -33,6 +33,11 @@ export function getBranchBasePath(pathname = "") {
   return `/${segments.slice(0, -1).join("/")}`;
 }
 
+/** Branch finder / location filter pages (`/location/...`) */
+export function isBranchSearchPage(pathname = "") {
+  return pathname?.startsWith("/location");
+}
+
 export function isBranchSubPage(pathname = "") {
   return (
     pathname?.includes("overview") ||

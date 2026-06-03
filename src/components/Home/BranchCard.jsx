@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { SquareArrowOutUpRight, Phone, ReceiptText, MapPin, Clock } from "lucide-react";
 import { slugify } from "@/lib/utils";
 
-export default function BranchCard({ branchList = [] }) {
+export default function BranchCard({ branchList = [], showHours = false }) {
     const router = useRouter();
 
     const branches = Array.isArray(branchList) ? branchList : [];
@@ -99,13 +99,12 @@ export default function BranchCard({ branchList = [] }) {
                                     </div>
                                 )}
 
-                                {/* Hours */}
-                                <div className="flex items-start space-x-3">
-                                    <Clock className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                                    <p className="text-sm text-gray-700">
-                                        {hours}
-                                    </p>
-                                </div>
+                                {showHours && (
+                                    <div className="flex items-start space-x-3">
+                                        <Clock className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                                        <p className="text-sm text-gray-700">{hours}</p>
+                                    </div>
+                                )}
                             </div>
 
                             {/* Action Buttons */}

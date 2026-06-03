@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import SearchFilters from "@/components/Home/SearchFilters";
 import BranchCard from "@/components/Home/BranchCard";
 
@@ -9,6 +10,8 @@ export default function BranchContainer({
     filters = {}
 }) {
     // State to track displayed branches
+    const pathname = usePathname();
+    const showHours = pathname?.startsWith("/location");
     const [displayBranches, setDisplayBranches] = useState(filteredBranches);
     const [isSearchActive, setIsSearchActive] = useState(false);
 
@@ -96,7 +99,7 @@ export default function BranchContainer({
 
             {/* Show branches */}
             {displayBranches && displayBranches.length > 0 && (
-                <BranchCard branchList={displayBranches} />
+                <BranchCard branchList={displayBranches} showHours={showHours} />
             )}
 
             {/* No results message */}
