@@ -140,8 +140,8 @@ export default function BranchDetails({ branchList, slug }) {
     return (
         <section className="flex h-full w-full min-w-0 max-w-full flex-col py-1">
             <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-gray-200 shadow-sm">
-                <div className="shrink-0 bg-[#6F75E0] px-3 py-4 text-white sm:px-4">
-                    <h2 className="text-center text-heading-3 font-bold leading-snug break-words text-white sm:text-heading-2">
+                <div className="shrink-0 bg-[#6F75E0] px-3 py-3 text-white sm:px-4 sm:py-3.5">
+                    <h2 className={`break-words ${type.branchCardTitle}`}>
                         {companyName} - {branchName}
                     </h2>
                 </div>

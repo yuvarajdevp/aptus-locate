@@ -164,7 +164,7 @@ export default function Featuredproduct({ solutioncard, branchType }) {
 
                                         {/* Content */}
                                         <div className="relative z-10 mt-8">
-                                            <h3 className="text-xl font-bold mb-4 pr-20">
+                                            <h3 className={`mb-4 pr-20 ${type.productCardTitle}`}>
                                                 {card?.title || "Untitled Product"}
                                             </h3>
                                             <p className="text-white/90 mb-8 text-sm leading-relaxed min-h-[60px]">

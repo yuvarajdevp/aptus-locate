@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { SquareArrowOutUpRight, Phone, ReceiptText, MapPin, Clock } from "lucide-react";
 import { canNavigateToBranch, buildBranchOverviewPath, getBranchName } from "@/lib/branchUtils";
+import { type } from "@/lib/typography";
 
 export default function BranchCard({ branchList = [], showHours = false }) {
     const router = useRouter();
@@ -19,7 +20,7 @@ export default function BranchCard({ branchList = [], showHours = false }) {
         <section className="container mx-auto px-4 py-10">
             {/* Section Header */}
             <div className="text-center mb-10">
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+                <h2 className={`mb-3 ${type.sectionTitle} text-gray-900`}>
                     Aptus Value Housing Finance
                 </h2>
                 <div className="mx-auto h-1 w-32 bg-[#1460B8] rounded"></div>
@@ -60,7 +61,7 @@ export default function BranchCard({ branchList = [], showHours = false }) {
                             {/* Header */}
                             <div className="bg-gradient-to-r from-[#1E2A78] to-[#1460B8] text-white p-4">
                                 <div className="flex items-center justify-between text-sm">
-                                    <h3 className="text-lg font-bold mb-1">
+                                    <h3 className={`mb-1 text-white ${type.productCardTitle}`}>
                                         Aptus - {getBranchName(branch) || "Unnamed Branch"}
                                     </h3>
                                     <span className="bg-white/20 px-3 py-1 rounded-full">

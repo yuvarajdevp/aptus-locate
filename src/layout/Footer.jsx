@@ -19,16 +19,16 @@ const Footer = ({ aboutDetails }) => {
   return (
     <>
       {/* ✅ About Section */}
-      <section className="container mx-auto px-4 py-8 text-center md:py-10">
-        <h2 className={`mb-4 ${type.sectionTitle} text-primary`}>
+      <section className="container mx-auto px-4 py-6 text-center md:py-6 lg:py-8">
+        <h2 className={`mb-3 md:mb-3 ${type.sectionTitle} text-primary`}>
           {aboutDetails?.about}
         </h2>
-        <p className={`mx-auto max-w-3xl ${type.body}`}>{aboutDetails?.aboutDetail}</p>
+        <p className={`mx-auto max-w-7xl ${type.body}`}>{aboutDetails?.aboutDetail}</p>
       </section>
 
       {/* ✅ Tags Section */}
-      <section className="px-4 py-6 text-center md:py-10">
-        <h2 className={`mb-4 text-primary md:mb-6 ${type.cardTitle}`}>
+      <section className="px-4 py-5 text-center md:py-6 lg:py-8">
+        <h2 className={`mb-3 text-primary md:mb-4 ${type.cardTitle}`}>
           Popular searches
         </h2>
         <ul className="mx-auto grid w-full max-w-screen-xl grid-cols-2 gap-2 md:flex md:flex-wrap md:justify-center md:gap-4">
@@ -37,9 +37,8 @@ const Footer = ({ aboutDetails }) => {
               {tag?.name && (
                 <Link
                   href={tag.link || "/"}
-                  className={`block w-full rounded-xl px-2 py-1.5 ${type.caption} font-medium leading-tight text-black transition hover:opacity-80 md:inline-block md:w-auto md:rounded-2xl md:px-4 md:py-2 md:text-body-sm ${
-                    tag.name ? colors[i % colors.length] : ""
-                  }`}
+                  className={`block w-full rounded-xl px-2 py-1.5 ${type.caption} font-medium leading-tight text-black transition hover:opacity-80 md:inline-block md:w-auto md:rounded-2xl md:px-4 md:py-2 md:text-body-sm ${tag.name ? colors[i % colors.length] : ""
+                    }`}
                 >
                   {tag.name}
                 </Link>
@@ -49,7 +48,7 @@ const Footer = ({ aboutDetails }) => {
         </ul>
       </section>
       {/* ✅ Footer Bottom */}
-      <footer className="mt-6 bg-primary text-primary-foreground md:mt-10">
+      <footer className="mt-4 bg-primary text-primary-foreground md:mt-6">
         <div className="container mx-auto px-3 py-3 sm:px-4 sm:py-4">
           <div
             className={`flex flex-nowrap items-center justify-between gap-1 sm:gap-3 ${type.footer}`}

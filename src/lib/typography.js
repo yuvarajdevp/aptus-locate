@@ -7,6 +7,8 @@ export const type = {
   pageTitle: "type-page-title",
   sectionTitle: "type-section-title",
   cardTitle: "type-card-title",
+  branchCardTitle: "type-branch-card-title",
+  productCardTitle: "type-product-card-title",
   body: "type-body",
   bodySm: "type-body-sm",
   meta: "type-meta",
