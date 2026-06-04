@@ -118,10 +118,10 @@ html {
   .type-card-title {
     @apply text-heading-3 font-bold text-gray-900;
   }
-  /* Branch details card header — fixed 1.5rem */
+  /* Branch card header (overview + location list) */
   .type-branch-card-title {
-    font-size: 1.5rem;
-    @apply text-center font-bold leading-snug text-white;
+    font-size: 1.4rem;
+    @apply font-bold leading-snug text-white;
   }
   .type-product-card-title {
     @apply text-heading-2 font-bold leading-snug text-white;

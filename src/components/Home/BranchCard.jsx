@@ -59,12 +59,12 @@ export default function BranchCard({ branchList = [], showHours = false }) {
                             className="bg-white border-2 border-gray-100 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col h-full"
                         >
                             {/* Header */}
-                            <div className="bg-gradient-to-r from-[#1E2A78] to-[#1460B8] text-white p-4">
-                                <div className="flex items-center justify-between text-sm">
-                                    <h3 className={`mb-1 text-white ${type.productCardTitle}`}>
+                            <div className="bg-gradient-to-r from-[#1E2A78] to-[#1460B8] p-4 text-white">
+                                <div className="flex items-start justify-between gap-2">
+                                    <h3 className={`min-w-0 flex-1 text-left leading-snug ${type.branchCardTitle}`}>
                                         Aptus - {getBranchName(branch) || "Unnamed Branch"}
                                     </h3>
-                                    <span className="bg-white/20 px-3 py-1 rounded-full">
+                                    <span className={`shrink-0 rounded-full bg-white/20 px-2 py-0.5 text-white ${type.label}`}>
                                         {branch?.type || "N/A"}
                                     </span>
                                 </div>
@@ -76,7 +76,7 @@ export default function BranchCard({ branchList = [], showHours = false }) {
                                 <div className="flex items-start space-x-3">
                                     <MapPin className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
                                     <div className="flex-1 min-w-0">
-                                        <p className="text-sm text-gray-700 leading-relaxed">
+                                        <p className={`leading-relaxed ${type.bodySm}`}>
                                             {fullAddress || "Address not available"}
                                         </p>
                                     </div>
@@ -88,7 +88,7 @@ export default function BranchCard({ branchList = [], showHours = false }) {
                                         <Phone className="h-5 w-5 text-blue-600 flex-shrink-0" />
                                         <a
                                             href={phoneLink}
-                                            className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+                                            className={`font-medium text-blue-600 hover:text-blue-800 ${type.bodySm}`}
                                         >
                                             {branch.phone}
                                         </a>
@@ -98,7 +98,7 @@ export default function BranchCard({ branchList = [], showHours = false }) {
                                 {showHours && (
                                     <div className="flex items-start space-x-3">
                                         <Clock className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                                        <p className="text-sm text-gray-700">{hours}</p>
+                                        <p className={type.bodySm}>{hours}</p>
                                     </div>
                                 )}
                             </div>
@@ -115,7 +115,7 @@ export default function BranchCard({ branchList = [], showHours = false }) {
                                             className="flex flex-col items-center justify-center gap-1 border-2 border-blue-200 rounded-xl px-3 py-2.5 text-blue-600 hover:bg-blue-50 hover:border-blue-400 transition group"
                                         >
                                             <SquareArrowOutUpRight className="w-4 h-4 group-hover:scale-110 transition" />
-                                            <span className="text-xs font-medium">Directions</span>
+                                            <span className={`font-medium ${type.caption}`}>Directions</span>
                                         </Link>
                                     ) : (
                                         <button
@@ -123,7 +123,7 @@ export default function BranchCard({ branchList = [], showHours = false }) {
                                             className="flex flex-col items-center justify-center gap-1 border-2 border-gray-200 rounded-xl px-3 py-2.5 text-gray-400 cursor-not-allowed"
                                         >
                                             <SquareArrowOutUpRight className="w-4 h-4" />
-                                            <span className="text-xs font-medium">Directions</span>
+                                            <span className={`font-medium ${type.caption}`}>Directions</span>
                                         </button>
                                     )}
 
@@ -134,7 +134,7 @@ export default function BranchCard({ branchList = [], showHours = false }) {
                                             className="flex flex-col items-center justify-center gap-1 border-2 border-blue-200 rounded-xl px-3 py-2.5 text-blue-600 hover:bg-blue-50 hover:border-blue-400 transition group"
                                         >
                                             <Phone className="w-4 h-4 group-hover:scale-110 transition" />
-                                            <span className="text-xs font-medium">Call</span>
+                                            <span className={`font-medium ${type.caption}`}>Call</span>
                                         </Link>
                                     ) : (
                                         <button
@@ -142,7 +142,7 @@ export default function BranchCard({ branchList = [], showHours = false }) {
                                             className="flex flex-col items-center justify-center gap-1 border-2 border-gray-200 rounded-xl px-3 py-2.5 text-gray-400 cursor-not-allowed"
                                         >
                                             <Phone className="w-4 h-4" />
-                                            <span className="text-xs font-medium">Call</span>
+                                            <span className={`font-medium ${type.caption}`}>Call</span>
                                         </button>
                                     )}
 
@@ -156,7 +156,7 @@ export default function BranchCard({ branchList = [], showHours = false }) {
                                             }`}
                                     >
                                         <ReceiptText className={`w-4 h-4 ${canNavigate ? 'group-hover:scale-110 transition' : ''}`} />
-                                        <span className="text-xs font-medium">Details</span>
+                                        <span className={`font-medium ${type.caption}`}>Details</span>
                                     </button>
                                 </div>
                             </div>
