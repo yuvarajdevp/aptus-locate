@@ -14,13 +14,14 @@ import Gallery from "@/app/gallery";
 import ContactContent from "@/app/contact-content";
 import NotFound from "@/app/not-found";
 import { handleLayoutApi } from "@/api/layout";
+import ScrollToPageTop from "@/components/ScrollToPageTop";
 
 export default async function DynamicPage({ params }) {
     const resolvedParams = await params;
     const slug = resolvedParams?.slug || [];
     const lastSegment = slug[slug.length - 1];
     const secondLastSegment = slug[slug.length - 2];
-    const storeCode = slug[0]; // First segment is always the branch
+    const branchSlug = slug[0]; // Full branch path segment (parsed via parseBranchSlug)
 
     // ✅ CRITICAL: Exclude root articles route from dynamic handler
     if (slug[0] === "articles" && slug.length === 1) {
@@ -39,6 +40,7 @@ export default async function DynamicPage({ params }) {
         return (
             <div className="pb-24 md:pb-0">
                 <Header />
+                <ScrollToPageTop />
                 <SingleArticle articleSlug={articleSlug} branchSlug={branchSlug} />
                 <Footer aboutDetails={await handleLayoutApi().then(r => r?.data || {})} />
                 <MobileActions />
@@ -55,20 +57,21 @@ export default async function DynamicPage({ params }) {
     const response = await handleLayoutApi();
     const layout = response?.data || {};
 
+    const isProductsPage = lastSegment === "products";
+    const scrollToTopOnLoad = !isProductsPage;
+
     const getPageContent = () => {
         switch (lastSegment) {
             case "overview":
-                return <OverviewContent slug={storeCode} />;
+                return <OverviewContent slug={branchSlug} />;
             case "contact":
-                return <ContactContent />;
+                return <ContactContent slug={branchSlug} />;
             case "products":
-                return <ProductContent slug={storeCode} />;
+                return <ProductContent slug={branchSlug} />;
             case "articles":
-                // Articles list page: /branch-slug/articles
                 return <Articles params={resolvedParams} />;
             case "gallery":
-                // Articles list page: /branch-slug/articles
-                return <Gallery />;
+                return <Gallery slug={branchSlug} />;
             default:
                 return <NotFound />;
         }
@@ -77,6 +80,7 @@ export default async function DynamicPage({ params }) {
     return (
         <div className="pb-24 md:pb-0">
             <Header />
+            <ScrollToPageTop enabled={scrollToTopOnLoad} />
             {getPageContent()}
             <Footer aboutDetails={layout} />
             <MobileActions />

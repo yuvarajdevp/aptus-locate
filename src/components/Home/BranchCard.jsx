@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { SquareArrowOutUpRight, Phone, ReceiptText, MapPin, Clock } from "lucide-react";
-import { slugify } from "@/lib/utils";
+import { canNavigateToBranch, buildBranchOverviewPath, getBranchName } from "@/lib/branchUtils";
 
 export default function BranchCard({ branchList = [], showHours = false }) {
     const router = useRouter();
@@ -28,7 +28,7 @@ export default function BranchCard({ branchList = [], showHours = false }) {
             {/* Branch Grid */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {branches.map((branch, idx) => {
-                    const canNavigate = branch?.storeCode && branch?.locality && branch?.city?.city && branch?.state?.state;
+                    const canNavigate = canNavigateToBranch(branch);
                     const mapLink = branch?.mapLink?.startsWith("http") ? branch.mapLink : null;
                     const phoneLink = branch?.phone ? `tel:${branch.phone}` : null;
 
@@ -36,6 +36,7 @@ export default function BranchCard({ branchList = [], showHours = false }) {
                     const addressParts = [
                         branch?.address,
                         branch?.locality,
+                        getBranchName(branch),
                         branch?.city?.city,
                         branch?.state?.state,
                         branch?.postcode
@@ -46,15 +47,9 @@ export default function BranchCard({ branchList = [], showHours = false }) {
 
                     // Handle details navigation (simplified - no loading state)
                     const handleDetails = () => {
-                        if (!canNavigate) return;
-
-                        const brand = "aptus-finance-home-loan-in";
-                        const localitySlug = slugify(branch.locality);
-                        const citySlug = slugify(branch.city?.city);
-                        const storeCodeSlug = slugify(branch.storeCode);
-                        const fullPath = `/${brand}-${localitySlug}-${citySlug}-${storeCodeSlug}/overview`;
-
-                        router.push(fullPath);
+                        const fullPath = buildBranchOverviewPath(branch);
+                        if (!fullPath) return;
+                        router.push(fullPath, { scroll: true });
                     };
 
                     return (
@@ -66,7 +61,7 @@ export default function BranchCard({ branchList = [], showHours = false }) {
                             <div className="bg-gradient-to-r from-[#1E2A78] to-[#1460B8] text-white p-4">
                                 <div className="flex items-center justify-between text-sm">
                                     <h3 className="text-lg font-bold mb-1">
-                                        Aptus - {branch?.locality || "Unnamed Branch"}
+                                        Aptus - {getBranchName(branch) || "Unnamed Branch"}
                                     </h3>
                                     <span className="bg-white/20 px-3 py-1 rounded-full">
                                         {branch?.type || "N/A"}

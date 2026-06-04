@@ -17,5 +17,9 @@ export default async function BannerDetails({
 }) {
   const { slides } = await resolveBannerSlides({ state, branchType, bannerRef });
 
-  return <BannerCarousel slides={slides} scrollTargetId={scrollTargetId} />;
+  return (
+    <div id="branch-top-banner" className="w-full scroll-mt-0">
+      <BannerCarousel slides={slides} scrollTargetId={scrollTargetId} />
+    </div>
+  );
 }

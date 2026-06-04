@@ -10,6 +10,7 @@ import {
 import { Plus, Minus } from "lucide-react";
 import Image from "next/image";
 import banner_app from "@/assets/banner_app.webp";
+import { type } from "@/lib/typography";
 export default function FAQ() {
     const faqData = [
         {
@@ -79,12 +80,12 @@ export default function FAQ() {
             <div className="container mx-auto max-w-screen-xl px-4">
 
 
-                <h2 className="text-3xl font-bold mb-10 text-start text-[#002F6C] text-[40px]">
+                <h2 className={`mb-6 text-start text-[#002F6C] sm:mb-10 ${type.sectionTitle}`}>
                     Frequently Asked Questions
                 </h2>
 
                 <div className="max-w mx-auto  bg-[#E8FAFF] rounded-xl px-lg-8 px-2">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 px-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
                         {[firstCol, secondCol].map((col, colIndex) => (
                             <Accordion
                                 key={colIndex}
@@ -99,7 +100,7 @@ export default function FAQ() {
                                         className="rounded-lg border bg-white shadow-sm p-4"
                                     >
                                         <AccordionTrigger
-                                            className=" group flex justify-between items-center text-left font-medium text-lg no-underline text-[#3051A0] [&::after]:hidden"
+                                            className={`group flex items-center justify-between text-left no-underline text-[#3051A0] [&::after]:hidden ${type.body} font-medium`}
                                         >
                                             <span>{faq.question}</span>
                                             <span className="ml-2">
@@ -110,12 +111,12 @@ export default function FAQ() {
                                             </span>
                                         </AccordionTrigger>
 
-                                        <AccordionContent className="mt-2 text-gray-600">
-                                            <p className="mb-2 text-base">{faq.answer}</p>
+                                        <AccordionContent className={`mt-2 ${type.bodySm}`}>
+                                            <p className={`mb-2 ${type.body}`}>{faq.answer}</p>
                                             {faq.cta && (
                                                 <a
                                                     href="#"
-                                                    className="font-medium hover:underline text-[#3051A0]"
+                                                    className={`font-medium text-[#3051A0] hover:underline ${type.link}`}
                                                 >
                                                     {faq.cta}
                                                 </a>

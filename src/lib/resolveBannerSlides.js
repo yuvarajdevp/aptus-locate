@@ -1,16 +1,14 @@
 import { handleBannersApi } from "@/api/banner";
 import { handleLayoutApi } from "@/api/layout";
+import { STRAPI_URL } from "@/env/env";
 
-const STRAPI_BASE_URL =
-  (process.env.NEXT_PUBLIC_BACKEND_URL ||
-    process.env.NEXT_PUBLIC_STRAPI_URL ||
-    "").replace(/\/$/, "");
+const STRAPI_BASE_URL = (STRAPI_URL || "").replace(/\/$/, "");
 
 const STATIC_FALLBACK_SLIDES = [
   {
     id: "static-fallback-banner",
-    desktopSrc: "",
-    mobileSrc: "",
+    desktopSrc: "/aptus_logo.webp",
+    mobileSrc: "/aptus_logo.webp",
     link: "/",
     source: "static",
   },

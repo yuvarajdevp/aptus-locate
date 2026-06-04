@@ -11,6 +11,8 @@ import {
     CalendarDays,
 } from "lucide-react";
 import qr from "@/assets/qr.png";
+import { getBranchName } from "@/lib/branchUtils";
+import { type } from "@/lib/typography";
 export default function BranchDetails({ branchList, slug }) {
     // Enhanced debugging
     console.log("=== BranchDetails Debug ===");
@@ -25,17 +27,13 @@ export default function BranchDetails({ branchList, slug }) {
         if (slug) {
             // Find the branch that matches the slug
             branch = branchList.find(b => {
-                // Try matching against different possible slug formats
                 const slugLower = slug.toLowerCase();
-                const locality = (b.locality || "").toLowerCase().replace(/\s+/g, "-");
-                const branchName = (b.branch_name || "").toLowerCase().replace(/\s+/g, "-");
+                const branchSlug = (b.branch || b.branch_name || "")
+                    .toLowerCase()
+                    .replace(/\s+/g, "-");
                 const storeCode = (b.storeCode || "").toLowerCase();
 
-                return locality === slugLower ||
-                    branchName === slugLower ||
-                    storeCode === slugLower ||
-                    locality.includes(slugLower) ||
-                    slugLower.includes(locality);
+                return branchSlug === slugLower || storeCode === slugLower;
             });
         }
         // Fallback to first branch if no match found
@@ -91,10 +89,10 @@ export default function BranchDetails({ branchList, slug }) {
     const hours = branch.hours || "Open 9:30 AM - Close 4:30 PM";
     const weeklyOffText = "Monday to Saturday, Except 2nd Saturday. ";
     const mapLink = branch.mapLink || "";
-    const branchName = branch.branch_name || locality || "Branch";
+    const branchName = getBranchName(branch) || "Branch";
 
     // Build full address
-    const fullAddress = [address, locality, city, state, postcode]
+    const fullAddress = [address, locality, getBranchName(branch), city, state, postcode]
         .filter(Boolean)
         .join(", ") || "Address not available";
 
@@ -133,17 +131,17 @@ export default function BranchDetails({ branchList, slug }) {
             : "Aptus Value Housing Finance India";
 
     const actionBtnClass =
-        "flex min-w-0 flex-1 flex-row items-center justify-center gap-1.5 rounded-2xl px-2 py-2.5 text-[11px] font-medium transition-colors sm:gap-2 sm:rounded-full sm:px-3 sm:py-3 sm:text-sm";
+        `flex min-w-0 flex-1 flex-row items-center justify-center gap-1.5 rounded-2xl px-2 py-2.5 transition-colors sm:gap-2 sm:rounded-full sm:px-3 sm:py-3 ${type.btn}`;
 
     const infoRowClass =
-        "flex items-start gap-3 text-sm leading-relaxed text-gray-900 sm:text-base";
+        `flex items-start gap-3 leading-relaxed text-gray-900 ${type.bodySm} sm:text-body`;
     const infoIconClass = "mt-0.5 h-5 w-5 shrink-0 text-primary";
 
     return (
         <section className="flex h-full w-full min-w-0 max-w-full flex-col py-1">
             <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-gray-200 shadow-sm">
                 <div className="shrink-0 bg-[#6F75E0] px-3 py-4 text-white sm:px-4">
-                    <h2 className="text-center text-base font-bold leading-snug break-words sm:text-lg md:text-2xl">
+                    <h2 className="text-center text-heading-3 font-bold leading-snug break-words text-white sm:text-heading-2">
                         {companyName} - {branchName}
                     </h2>
                 </div>
@@ -246,7 +244,7 @@ export default function BranchDetails({ branchList, slug }) {
                             alt="QR Code"
                             className="mb-2 h-28 w-28 object-contain lg:h-36 lg:w-36"
                         />
-                        <p className="text-sm font-semibold text-gray-800 sm:text-base">
+                        <p className={`font-semibold text-gray-800 ${type.bodySm} sm:text-body`}>
                             Scan QR Code
                         </p>
                     </div>

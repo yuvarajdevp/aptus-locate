@@ -7,7 +7,16 @@ export const BRANCH_NAV_ITEMS = [
   { name: "Gallery", route: "/gallery", icon: "gallery" },
 ];
 
-export const MOBILE_ICON_NAV_ITEMS = BRANCH_NAV_ITEMS;
+/** Desktop header includes Contact; mobile bottom bar uses same list. */
+export const BRANCH_DESKTOP_NAV_ITEMS = [
+  ...BRANCH_NAV_ITEMS,
+  { name: "Contact Us", route: "/contact", icon: "contact" },
+];
+
+export const MOBILE_ICON_NAV_ITEMS = BRANCH_DESKTOP_NAV_ITEMS;
+
+/** Sticky header offset for in-page scroll (keep in sync across nav + banner). */
+export const BRANCH_HEADER_SCROLL_OFFSET = 120;
 
 /** Customer care – used for mobile Call Now */
 export const APTUS_HELP_PHONE = "044-45650000";
@@ -57,10 +66,13 @@ export function getBranchNavActive(item, pathname, currentHash) {
   if (item.name === "Articles") {
     return currentPath.includes("/articles");
   }
+  if (item.name === "Contact Us") {
+    return currentPath.endsWith("/contact");
+  }
   if (item.scrollTo) {
     return currentPath === targetPath && currentHash === `#${item.scrollTo}`;
   }
-  if (currentPath === targetPath) {
+  if (item.name === "Overview" && currentPath === targetPath) {
     return !currentHash || currentHash !== "#products-section";
   }
   return currentPath === targetPath;

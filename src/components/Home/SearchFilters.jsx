@@ -7,6 +7,7 @@ import { useStates, useCities, useBranches } from "@/query/useQuery";
 export default function SearchFilters({
     onSearch,
     initialFilters = {},
+    onLoadingChange,
 }) {
     const router = useRouter();
 
@@ -15,7 +16,6 @@ export default function SearchFilters({
     const [city, setCity] = useState("");
     const [locality, setLocality] = useState("");
     const [selectedTypes, setSelectedTypes] = useState(["HFC", "NBFC"]);
-    const [isSearching, setIsSearching] = useState(false);
 
     // Track initialization
     const hasInitialized = useRef(false);
@@ -49,6 +49,12 @@ export default function SearchFilters({
             console.log("Selected types:", selectedTypes);
         }
     }, [cityBranches, selectedTypes]);
+
+    // Only show card skeleton while branch API data is loading (not on button click)
+    useEffect(() => {
+        const isLoading = Boolean(state && city && branchesLoading);
+        onLoadingChange?.(isLoading);
+    }, [state, city, branchesLoading, onLoadingChange]);
 
     // Initialize filters from URL only once
     useEffect(() => {
@@ -166,50 +172,34 @@ export default function SearchFilters({
         return filteredResults;
     };
 
-    // Handle search button click
-    const handleSearch = async () => {
+    // Handle search button click — update cards in place (no route navigation / flicker)
+    const handleSearch = () => {
         if (!state || !city) return;
         if (!cityBranches) return;
-        if (selectedTypes.length === 0) return; // Don't search if no types selected
+        if (selectedTypes.length === 0) return;
 
-        console.log("🚀 SEARCH BUTTON CLICKED");
-        console.log("State:", state);
-        console.log("City:", city);
-        console.log("Locality:", locality);
-        console.log("Selected types:", selectedTypes);
+        const filteredResults = performFilter();
+        onSearch(filteredResults, false);
 
-        setIsSearching(true);
+        const urlParts = [];
+        if (state) urlParts.push(slugify(state));
+        if (city) urlParts.push(slugify(city));
+        if (locality) urlParts.push(slugify(locality));
 
-        try {
-            // Filter results (only by locality since type is already filtered by API)
-            const filteredResults = performFilter();
-
-            console.log("📤 Calling onSearch with", filteredResults.length, "branches");
-            console.log("Branches:", filteredResults.map(b => `${b.locality} (${b.type})`));
-
-            // Update parent component
-            onSearch(filteredResults, false);
-
-            // Build URL
-            const urlParts = [];
-            if (state) urlParts.push(slugify(state));
-            if (city) urlParts.push(slugify(city));
-            if (locality) urlParts.push(slugify(locality));
-
-            const newUrl = urlParts.length > 0
+        const newUrl =
+            urlParts.length > 0
                 ? `/location/${urlParts.join("/")}`
                 : "/location/all-states";
 
-            console.log("🔗 Navigating to:", newUrl);
-
-            // Navigate
-            await new Promise(resolve => setTimeout(resolve, 50));
-            router.push(newUrl);
-        } catch (error) {
-            console.error("❌ Search error:", error);
-        } finally {
-            setIsSearching(false);
+        if (typeof window !== "undefined") {
+            window.history.replaceState(null, "", newUrl);
         }
+
+        requestAnimationFrame(() => {
+            document
+                .getElementById("branch-results")
+                ?.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
     };
 
     // Handle reset
@@ -421,29 +411,19 @@ export default function SearchFilters({
             <div className="flex flex-col sm:flex-row justify-center gap-3 md:gap-4">
                 <button
                     onClick={handleReset}
-                    disabled={isSearching}
                     className="flex items-center justify-center space-x-2 border-2 border-blue-600 text-blue-600 px-6 md:px-8 py-2 md:py-3 rounded-lg hover:bg-blue-50 transition font-medium text-sm md:text-base disabled:opacity-50"
                 >
                     <span>Reset Filters</span>
                 </button>
                 <button
                     onClick={handleSearch}
-                    disabled={isSearching || !canSearch}
+                    disabled={!canSearch}
                     className="flex items-center justify-center space-x-2 bg-blue-700 text-white px-6 md:px-8 py-2 md:py-3 rounded-lg hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed transition font-medium shadow-lg text-sm md:text-base"
                 >
-                    {isSearching ? (
-                        <>
-                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                            <span>Searching...</span>
-                        </>
-                    ) : (
-                        <>
-                            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                            <span>Search Branches</span>
-                        </>
-                    )}
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <span>Search Branches</span>
                 </button>
             </div>
 

@@ -1,20 +1,12 @@
-import React from 'react';
-import Header from "@/layout/Header";
-import Footer from "@/layout/Footer";
-import BranchCard from "@/components/Home/BranchCard";
-import FAQ from "@/components/Home/FAQ";
-import BannerDetails from "@/components/Home/BannerDetails";
+import React from "react";
+import BranchPageBanner from "@/components/Home/BranchPageBanner";
 import ContactUs from "@/components/ContactUs";
 
-export default function ContactContent() {
+export default async function ContactContent({ slug }) {
     return (
         <>
-
-            <BannerDetails />
+            <BranchPageBanner slug={slug} />
             <ContactUs />
-
-
         </>
-
-    )
+    );
 }

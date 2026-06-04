@@ -47,27 +47,29 @@ export function parseBranchSlug(slug) {
     return { storeCode: "", locality: "", city: "" };
   }
   
-  // Last part is store code, second-last is city, rest is locality
+  // Last part is store code, second-last is city, rest is branch name
   const storeCode = parts[parts.length - 1];
   const city = parts.length > 1 ? parts[parts.length - 2] : "";
-  const locality = parts.length > 2 ? parts.slice(0, -2).join("-") : "";
+  const branch = parts.length > 2 ? parts.slice(0, -2).join("-") : "";
   
   return {
     storeCode,
-    locality,
+    branch,
+    locality: branch,
     city,
-    localityDisplay: locality ? unslugify(locality) : "",
+    branchDisplay: branch ? unslugify(branch) : "",
+    localityDisplay: branch ? unslugify(branch) : "",
     cityDisplay: city ? unslugify(city) : ""
   };
 }
 
 // ✅ Build branch detail URL from components
-// Example: buildBranchUrl("Anna Nagar", "Chennai", "CH001") 
-// → "aptus-finance-home-loan-in-anna-nagar-chennai-ch001"
-export function buildBranchUrl(locality, city, storeCode) {
+// Example: buildBranchUrl("Hindupur", "Ananthapur", "CH001") 
+// → "aptus-finance-home-loan-in-hindupur-ananthapur-ch001"
+export function buildBranchUrl(branchName, city, storeCode) {
   const parts = [];
   
-  if (locality) parts.push(slugify(locality));
+  if (branchName) parts.push(slugify(branchName));
   if (city) parts.push(slugify(city));
   if (storeCode) parts.push(storeCode.toLowerCase());
   

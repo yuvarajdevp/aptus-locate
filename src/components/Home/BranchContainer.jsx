@@ -3,134 +3,111 @@ import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import SearchFilters from "@/components/Home/SearchFilters";
 import BranchCard from "@/components/Home/BranchCard";
+import BranchCardGridSkeleton from "@/components/skeletons/BranchCardGridSkeleton";
 
 export default function BranchContainer({
     branchList = [],
     filteredBranches = [],
-    filters = {}
+    filters = {},
 }) {
-    // State to track displayed branches
     const pathname = usePathname();
     const showHours = pathname?.startsWith("/location");
     const [displayBranches, setDisplayBranches] = useState(filteredBranches);
     const [isSearchActive, setIsSearchActive] = useState(false);
+    const [isBranchListLoading, setIsBranchListLoading] = useState(false);
+    const [hasSearched, setHasSearched] = useState(
+        Boolean(filters.state || filters.city || filters.locality)
+    );
 
-    // Track the previous filteredBranches to detect actual server data changes
     const prevFilteredBranchesRef = useRef(filteredBranches);
 
-    // Debug logs
     useEffect(() => {
-        console.log("=== BranchContainer Debug ===");
-        console.log("filteredBranches from server:", filteredBranches?.length);
-        console.log("displayBranches state:", displayBranches?.length);
-        console.log("isSearchActive:", isSearchActive);
-        console.log("filters:", filters);
-    }, [filteredBranches, displayBranches, isSearchActive, filters]);
-
-    // Update display when server-side filtered branches change (URL navigation)
-    useEffect(() => {
-        // Check if filteredBranches actually changed (not just re-rendered with same data)
         const prevBranches = prevFilteredBranchesRef.current;
         const hasChanged =
             prevBranches.length !== filteredBranches.length ||
             prevBranches.some((b, i) => b?.id !== filteredBranches[i]?.id);
 
-        console.log("🔄 filteredBranches effect triggered");
-        console.log("Previous count:", prevBranches?.length);
-        console.log("New count:", filteredBranches?.length);
-        console.log("Actually changed:", hasChanged);
-        console.log("isSearchActive:", isSearchActive);
-
-        // Always update when server data changes OR when search is not active
         if (hasChanged || !isSearchActive) {
-            console.log("✅ Syncing display with server data");
             setDisplayBranches(filteredBranches);
             prevFilteredBranchesRef.current = filteredBranches;
-            // Reset search active flag when server data changes
             if (hasChanged) {
                 setIsSearchActive(false);
+                setHasSearched(
+                    Boolean(filters.state || filters.city || filters.locality)
+                );
             }
-        } else {
-            console.log("⏸️ Search active and no server change - keeping filtered results");
         }
-    }, [filteredBranches, isSearchActive]);
+    }, [filteredBranches, isSearchActive, filters]);
 
-    // Handle search from SearchFilters component
     const handleSearchUpdate = (searchResults, isReset = false) => {
-        console.log("🔍 Search triggered from SearchFilters");
-        console.log("Is Reset:", isReset);
-        console.log("Filtered results:", searchResults?.length, "branches");
-        console.log("Branch types:", searchResults?.map(b => `${b.locality} (${b.type})`));
-
         if (isReset) {
-            // For reset, always sync with server data
-            console.log("🔄 Reset detected - syncing with server");
             setIsSearchActive(false);
+            setHasSearched(false);
             setDisplayBranches(filteredBranches);
-        } else {
-            setIsSearchActive(true);
-            setDisplayBranches(searchResults);
+            return;
         }
 
-        console.log("✅ displayBranches updated");
+        setIsSearchActive(true);
+        setHasSearched(true);
+        setDisplayBranches(searchResults);
     };
 
-    // Determine if user has selected filters
     const hasActiveFilters = filters.state || filters.city || filters.locality;
 
-    // Final render check
-    console.log("🎨 Rendering BranchCard with:", displayBranches?.length, "branches");
+    const showCardSkeleton =
+        isBranchListLoading &&
+        displayBranches.length === 0 &&
+        !hasSearched;
+
+    const skeletonCount = Math.max(displayBranches.length || 6, 6);
 
     return (
-        <div className="">
+        <div>
             <SearchFilters
                 branchList={branchList}
                 onSearch={handleSearchUpdate}
                 initialFilters={filters}
+                onLoadingChange={setIsBranchListLoading}
             />
 
-            {/* Debug Info */}
-            {/* <div className="container mx-auto px-4 py-2">
-                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-xs">
-                    <strong>Debug:</strong> Displaying {displayBranches?.length || 0} branches
-                    {isSearchActive ? " (from search)" : " (from server)"}
-                </div>
-            </div> */}
+            <div id="branch-results" className="min-h-[200px]">
+                {showCardSkeleton && (
+                    <BranchCardGridSkeleton count={skeletonCount} />
+                )}
 
-            {/* Show branches */}
-            {displayBranches && displayBranches.length > 0 && (
-                <BranchCard branchList={displayBranches} showHours={showHours} />
-            )}
+                {!showCardSkeleton && displayBranches?.length > 0 && (
+                    <BranchCard branchList={displayBranches} showHours={showHours} />
+                )}
 
-            {/* No results message */}
-            {(!displayBranches || displayBranches.length === 0) && (
-                <div className="container mx-auto px-4 py-8">
-                    <div className="text-center py-12">
-                        <svg
-                            className="mx-auto h-12 w-12 text-gray-400 mb-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                            />
-                        </svg>
-                        <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                            No branches found
-                        </h3>
-                        <p className="text-gray-600 mb-8">
-                            {hasActiveFilters
-                                ? "Try adjusting your search filters or selecting different options"
-                                : "Select State and City, then click Search to find branches"
-                            }
-                        </p>
-                    </div>
-                </div>
-            )}
+                {!showCardSkeleton &&
+                    (!displayBranches || displayBranches.length === 0) && (
+                        <div className="container mx-auto px-4 py-8">
+                            <div className="py-12 text-center">
+                                <svg
+                                    className="mx-auto mb-4 h-12 w-12 text-gray-400"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                    />
+                                </svg>
+                                <h3 className="mb-3 text-xl font-semibold text-gray-900">
+                                    No branches found
+                                </h3>
+                                <p className="mb-8 text-gray-600">
+                                    {hasActiveFilters || hasSearched
+                                        ? "Try adjusting your search filters or selecting different options"
+                                        : "Select State and City, then click Search to find branches"}
+                                </p>
+                            </div>
+                        </div>
+                    )}
+            </div>
         </div>
     );
 }

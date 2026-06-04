@@ -20,7 +20,8 @@ const decodeLocationSlug = (slug) => {
 };
 
 export default async function LocationPage({ params }) {
-    const locationArr = params?.location || [];
+    const resolvedParams = await params;
+    const locationArr = resolvedParams?.location || [];
     const [stateSlug = "", citySlug = "", localitySlug = ""] = locationArr;
 
     // Decode slugs to get actual names

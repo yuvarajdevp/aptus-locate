@@ -7,6 +7,8 @@ import Link from 'next/link';
 import { handleBlogsApi } from '@/api/blogs';
 import { slugify } from '@/lib/utils';
 import NotFound from '@/app/not-found';
+import BranchPageBanner from '@/components/Home/BranchPageBanner';
+import { type } from '@/lib/typography';
 
 export default async function SingleArticle({ articleSlug, branchSlug }) {
     const blogs = await handleBlogsApi();
@@ -34,11 +36,12 @@ export default async function SingleArticle({ articleSlug, branchSlug }) {
     const branchPath = branchSlug ? `/${branchSlug}/overview` : '/';
 
     return (
-        <div className="bg-gray-50 min-h-screen">
+        <div className="bg-gray-50">
+            <BranchPageBanner slug={branchSlug} />
             {/* Breadcrumb */}
             <div className="bg-white border-b border-gray-200">
-                <div className="container mx-auto px-4 py-4">
-                    <nav className="flex items-center gap-2 text-sm">
+                <div className="container mx-auto px-4 py-3 sm:py-4">
+                    <nav className={`flex flex-wrap items-center gap-1.5 sm:gap-2 ${type.breadcrumb}`}>
                         <Link href={branchPath} className="text-blue-600 hover:text-blue-800">
                             Home
                         </Link>
@@ -47,17 +50,17 @@ export default async function SingleArticle({ articleSlug, branchSlug }) {
                             Articles
                         </Link>
                         <span className="text-gray-400">/</span>
-                        <span className="text-gray-700 font-medium">{article.title}</span>
+                        <span className="line-clamp-1 font-medium text-gray-700">{article.title}</span>
                     </nav>
                 </div>
             </div>
 
             {/* Article Content */}
-            <article className="container mx-auto px-4 py-12 max-w-4xl">
+            <article className="container mx-auto max-w-4xl px-4 py-8 sm:py-12">
                 {/* Back to Articles */}
                 <Link
                     href={articlesPath}
-                    className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6 font-medium"
+                    className={`mb-6 inline-flex items-center ${type.link}`}
                 >
                     <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -67,11 +70,11 @@ export default async function SingleArticle({ articleSlug, branchSlug }) {
 
                 {/* Article Header */}
                 <header className="mb-8">
-                    <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                    <h1 className={`mb-4 ${type.pageTitle}`}>
                         {article.title}
                     </h1>
 
-                    <div className="flex items-center gap-4 text-gray-600">
+                    <div className={`flex flex-wrap items-center gap-2 sm:gap-4 ${type.meta}`}>
                         <time dateTime={article.publishDate || article.createdAt}>
                             {publishDate}
                         </time>
@@ -96,14 +99,14 @@ export default async function SingleArticle({ articleSlug, branchSlug }) {
                 {/* Article Description/Summary */}
                 {article.description && (
                     <div className="bg-blue-50 border-l-4 border-blue-600 p-6 mb-8">
-                        <p className="text-lg text-gray-700 leading-relaxed">
+                        <p className={`${type.body} leading-relaxed`}>
                             {article.description}
                         </p>
                     </div>
                 )}
 
                 {/* Article Content */}
-                <div className="prose prose-lg max-w-none">
+                <div className="type-prose max-w-none">
                     {article.content ? (
                         <div dangerouslySetInnerHTML={{ __html: article.content }} />
                     ) : (
@@ -116,12 +119,12 @@ export default async function SingleArticle({ articleSlug, branchSlug }) {
                 {/* Tags (if available) */}
                 {article.tags && article.tags.length > 0 && (
                     <div className="mt-12 pt-8 border-t border-gray-200">
-                        <h3 className="text-sm font-semibold text-gray-900 mb-3">Tags:</h3>
+                        <h3 className={`mb-3 font-semibold text-gray-900 ${type.bodySm}`}>Tags:</h3>
                         <div className="flex flex-wrap gap-2">
                             {article.tags.map((tag, index) => (
                                 <span
                                     key={index}
-                                    className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
+                                    className={`rounded-full bg-gray-100 px-3 py-1 text-gray-700 ${type.bodySm}`}
                                 >
                                     {tag}
                                 </span>
@@ -148,9 +151,9 @@ export default async function SingleArticle({ articleSlug, branchSlug }) {
             </article>
 
             {/* Related Articles Section */}
-            <section className="bg-white py-12">
-                <div className="container mx-auto px-4 max-w-6xl">
-                    <h2 className="text-3xl font-bold text-gray-900 mb-8">Related Articles</h2>
+            <section className="bg-white py-8 sm:py-12">
+                <div className="container mx-auto max-w-6xl px-4">
+                    <h2 className={`mb-6 sm:mb-8 ${type.sectionTitle}`}>Related Articles</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {blogsData
                             .filter(blog => blog.id !== article.id)
@@ -174,11 +177,11 @@ export default async function SingleArticle({ articleSlug, branchSlug }) {
                                                 className="w-full h-full object-cover hover:scale-110 transition-transform"
                                             />
                                         </div>
-                                        <div className="p-5">
-                                            <h3 className="text-lg font-bold mb-2 line-clamp-2 hover:text-blue-600">
+                                        <div className="p-4 sm:p-5">
+                                            <h3 className={`mb-2 line-clamp-2 hover:text-blue-600 ${type.cardTitle}`}>
                                                 {blog.title}
                                             </h3>
-                                            <p className="text-gray-600 text-sm line-clamp-2">
+                                            <p className={`line-clamp-2 ${type.bodySm}`}>
                                                 {blog.description}
                                             </p>
                                         </div>

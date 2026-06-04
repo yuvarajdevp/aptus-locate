@@ -1,5 +1,5 @@
 /* Import font first — must be before Tailwind directives */
-@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -30,6 +30,15 @@ html {
 
 @layer base {
   :root {
+    /* Mobile-first type scale (16px base body) */
+    --text-display: clamp(1.75rem, 4vw + 0.5rem, 3rem);
+    --text-h1: clamp(1.5rem, 3vw + 0.5rem, 2.5rem);
+    --text-h2: clamp(1.25rem, 2.5vw + 0.5rem, 2rem);
+    --text-h3: clamp(1.125rem, 2vw + 0.5rem, 1.5rem);
+    --text-body: 1rem;
+    --text-body-sm: 0.875rem;
+    --text-caption: 0.8125rem;
+    --text-label: 0.75rem;
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
@@ -90,7 +99,82 @@ html {
   * {
     @apply border-border;
   }
+  html {
+    font-size: 16px;
+  }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-body text-foreground antialiased;
+  }
+}
+
+@layer components {
+  .type-display {
+    @apply text-display font-bold tracking-tight text-gray-900;
+  }
+  .type-page-title {
+    @apply text-heading-1 font-bold text-gray-900;
+  }
+  .type-section-title {
+    @apply text-heading-2 font-bold text-[#252685];
+  }
+  .type-card-title {
+    @apply text-heading-3 font-bold text-gray-900;
+  }
+  .type-body {
+    @apply text-body text-gray-700;
+  }
+  .type-body-sm {
+    @apply text-body-sm text-gray-600;
+  }
+  .type-meta {
+    @apply text-body-sm text-gray-500;
+  }
+  .type-caption {
+    @apply text-caption text-gray-500;
+  }
+  .type-label {
+    @apply text-label font-medium;
+  }
+  .type-breadcrumb {
+    @apply text-caption leading-snug md:text-body-sm;
+  }
+  .type-nav-label {
+    @apply text-[0.625rem] font-medium leading-tight sm:text-caption;
+  }
+  .type-footer {
+    font-size: clamp(0.5rem, 2.2vw, 0.75rem);
+    @apply leading-tight;
+  }
+  .type-tab {
+    @apply text-body-sm font-semibold sm:text-body;
+  }
+  .type-btn {
+    @apply text-body-sm font-medium sm:text-body;
+  }
+  .type-eyebrow {
+    @apply text-body-sm font-semibold uppercase tracking-wider text-gray-500;
+  }
+  .type-link {
+    @apply text-body-sm font-semibold text-blue-600 hover:text-blue-800 sm:text-body;
+  }
+  .type-prose {
+    @apply text-body leading-relaxed text-gray-700;
+  }
+  .type-prose h1,
+  .type-prose h2,
+  .type-prose h3 {
+    @apply font-bold text-gray-900;
+  }
+  .type-prose h1 {
+    @apply text-heading-1 mb-4;
+  }
+  .type-prose h2 {
+    @apply text-heading-2 mb-3;
+  }
+  .type-prose h3 {
+    @apply text-heading-3 mb-2;
+  }
+  .type-prose p {
+    @apply mb-4;
   }
 }

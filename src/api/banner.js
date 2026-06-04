@@ -23,7 +23,12 @@ const buildBannerQuery = ({ state, branchType, bannerRef } = {}) => {
 };
 
 export const handleBannersApi = async (filters = {}) => {
-  const apiUrl = buildBannerQuery(filters);
-  return senderRequest("get", apiUrl);
+  try {
+    const apiUrl = buildBannerQuery(filters);
+    return await senderRequest("get", apiUrl);
+  } catch (error) {
+    console.error("handleBannersApi error:", error);
+    return { data: [] };
+  }
 };
 

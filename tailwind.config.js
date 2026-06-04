@@ -62,6 +62,28 @@ module.exports = {
   				'5': 'hsl(var(--chart-5))'
   			}
   		},
+  		fontSize: {
+  			display: [
+  				'clamp(1.75rem, 4vw + 0.5rem, 3rem)',
+  				{ lineHeight: '1.2', fontWeight: '700' },
+  			],
+  			'heading-1': [
+  				'clamp(1.5rem, 3vw + 0.5rem, 2.5rem)',
+  				{ lineHeight: '1.25', fontWeight: '700' },
+  			],
+  			'heading-2': [
+  				'clamp(1.25rem, 2.5vw + 0.5rem, 2rem)',
+  				{ lineHeight: '1.3', fontWeight: '700' },
+  			],
+  			'heading-3': [
+  				'clamp(1.125rem, 2vw + 0.5rem, 1.5rem)',
+  				{ lineHeight: '1.35', fontWeight: '600' },
+  			],
+  			body: ['1rem', { lineHeight: '1.6' }],
+  			'body-sm': ['0.875rem', { lineHeight: '1.5' }],
+  			caption: ['0.8125rem', { lineHeight: '1.4' }],
+  			label: ['0.75rem', { lineHeight: '1.3' }],
+  		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',

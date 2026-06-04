@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import featuredicon from "@/assets/featuredicon.svg";
 import { STRAPI_URL } from "@/env/env";
+import { type } from "@/lib/typography";
 
 // Gradient colors for product cards
 const productCardStyles = [
@@ -80,10 +81,10 @@ export default function Featuredproduct({ solutioncard, branchType }) {
             <div className="mx-auto w-full max-w-screen-xl px-4">
                 {/* Header Section */}
                 <div className="mb-8">
-                    <h1 className="text-4xl font-bold text-[#252685] mb-2">
+                    <h1 className={`mb-2 ${type.sectionTitle}`}>
                         {productTitle}
                     </h1>
-                    <p className="text-base text-gray-600">
+                    <p className={type.bodySm}>
                         Experience hassle-free service, wherever you are
                     </p>
                 </div>

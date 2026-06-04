@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { type } from "@/lib/typography";
 
 const Footer = ({ aboutDetails }) => {
   // console.log(aboutDetails, "aboutDetails");
@@ -18,16 +19,16 @@ const Footer = ({ aboutDetails }) => {
   return (
     <>
       {/* ✅ About Section */}
-      <section className="container mx-auto py-10 text-center px-lg-0 px-2">
-        <h2 className="text-4xl font-bold text-primary mb-6">
+      <section className="container mx-auto px-4 py-8 text-center md:py-10">
+        <h2 className={`mb-4 ${type.sectionTitle} text-primary`}>
           {aboutDetails?.about}
         </h2>
-        <p>{aboutDetails?.aboutDetail}</p>
+        <p className={`mx-auto max-w-3xl ${type.body}`}>{aboutDetails?.aboutDetail}</p>
       </section>
 
       {/* ✅ Tags Section */}
-      <section className="px-4 py-8 text-center md:py-10">
-        <h2 className="mb-4 text-xl font-bold text-primary md:mb-6 md:text-4xl">
+      <section className="px-4 py-6 text-center md:py-10">
+        <h2 className={`mb-4 text-primary md:mb-6 ${type.cardTitle}`}>
           Popular searches
         </h2>
         <ul className="mx-auto grid w-full max-w-screen-xl grid-cols-2 gap-2 md:flex md:flex-wrap md:justify-center md:gap-4">
@@ -36,7 +37,7 @@ const Footer = ({ aboutDetails }) => {
               {tag?.name && (
                 <Link
                   href={tag.link || "/"}
-                  className={`block w-full rounded-xl px-2 py-1.5 text-[11px] font-medium leading-tight text-black transition hover:opacity-80 md:inline-block md:w-auto md:rounded-2xl md:px-4 md:py-2 md:text-base ${
+                  className={`block w-full rounded-xl px-2 py-1.5 ${type.caption} font-medium leading-tight text-black transition hover:opacity-80 md:inline-block md:w-auto md:rounded-2xl md:px-4 md:py-2 md:text-body-sm ${
                     tag.name ? colors[i % colors.length] : ""
                   }`}
                 >
@@ -48,11 +49,21 @@ const Footer = ({ aboutDetails }) => {
         </ul>
       </section>
       {/* ✅ Footer Bottom */}
-      <footer className="mt-10 bg-primary text-primary-foreground">
-        <div className="container mx-auto flex flex-wrap justify-between py-5 text-sm">
-          <p>All rights reserved &copy; {new Date().getFullYear()}</p>
-          <p>Powered by Tuskmelon</p>
-          <p>Privacy policy | Terms of use</p>
+      <footer className="mt-6 bg-primary text-primary-foreground md:mt-10">
+        <div className="container mx-auto px-3 py-3 sm:px-4 sm:py-4">
+          <div
+            className={`flex flex-nowrap items-center justify-between gap-1 sm:gap-3 ${type.footer}`}
+          >
+            <span className="shrink-0 whitespace-nowrap">
+              All rights reserved &copy; {new Date().getFullYear()}
+            </span>
+            <span className="shrink-0 whitespace-nowrap text-center">
+              Privacy policy | Terms of use
+            </span>
+            <span className="shrink-0 whitespace-nowrap text-right">
+              Powered by Tuskmelon
+            </span>
+          </div>
         </div>
       </footer>
     </>

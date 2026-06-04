@@ -9,6 +9,13 @@ import Link from "next/link";
 import UnderLine from "@/components/UnderLine";
 import MobileBranchNav from "@/layout/MobileBranchNav";
 import { useEffect, useState } from "react";
+import {
+  getBranchBasePath,
+  getBranchNavActive,
+  isBranchSubPage,
+  BRANCH_DESKTOP_NAV_ITEMS,
+  BRANCH_HEADER_SCROLL_OFFSET,
+} from "@/lib/branchNav";
 
 export default function Header() {
   const pathName = usePathname();
@@ -29,48 +36,16 @@ export default function Header() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  // ✅ FIXED: Properly handle article pages
-  const getUrl = () => {
-    const segments = pathName.split('/').filter(Boolean);
-
-    // If we're on an article page: /branch-slug/articles/article-slug
-    if (segments.length >= 3 && segments[segments.length - 2] === 'articles') {
-      // Return just the branch slug
-      return `/${segments.slice(0, -2).join('/')}`;
-    }
-
-    // If we're on the articles list page: /branch-slug/articles
-    if (segments[segments.length - 1] === 'articles') {
-      // Return just the branch slug
-      return `/${segments.slice(0, -1).join('/')}`;
-    }
-
-    // Default: remove last segment
-    return `/${segments.slice(0, -1).join('/')}`;
-  };
-
   const shouldDisplayButton =
-    pathName?.includes('whats-new') ||
-    pathName.includes('overview') ||
-    pathName.includes('contact') ||
-    pathName.includes('articles') ||
-    pathName.includes('gallery') ||
-    pathName.includes('reviewForm');
-
-  const navList = [
-    { name: 'Overview', route: '/overview' },
-    { name: 'Products', route: '/overview', scrollTo: 'products-section' },
-    // { name: 'Products', route: '/products' },
-    { name: 'Articles', route: '/articles' },
-    { name: 'Gallery', route: '/gallery' },
-    { name: 'Contact Us', route: '/contact' }
-  ];
+    isBranchSubPage(pathName) ||
+    pathName?.includes("whats-new") ||
+    pathName?.includes("reviewForm");
 
   // ✅ Smooth scroll to element
   const smoothScrollToElement = (elementId) => {
     const element = document.getElementById(elementId);
     if (element) {
-      const headerOffset = 100;
+      const headerOffset = BRANCH_HEADER_SCROLL_OFFSET;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
@@ -85,7 +60,7 @@ export default function Header() {
   const handleNavClick = (e, item) => {
     e.preventDefault();
 
-    const baseUrl = getUrl();
+    const baseUrl = getBranchBasePath(pathName);
     const targetUrl = item.name === "Offers" ? item.route : `${baseUrl}${item.route}`;
     const currentPath = pathName.split('#')[0];
     const targetPath = targetUrl.split('#')[0];
@@ -128,28 +103,10 @@ export default function Header() {
 
         <div className="hidden md:flex align-middle justify-evenly gap-10">
           {shouldDisplayButton &&
-            navList.map((data, index) => {
-              const baseUrl = getUrl();
-              const targetUrl = data.name === "Offers" ? data.route : `${baseUrl}${data.route}`;
-              const currentPath = pathName.split('#')[0];
-              const targetPath = targetUrl.split('#')[0];
-
-              // ✅ Determine active state based on route AND hash
-              let active = false;
-
-              if (data.name === 'Articles') {
-                // Articles tab: active if on any articles page
-                active = currentPath.includes('/articles');
-              } else if (data.scrollTo) {
-                // Products tab: active only when hash matches
-                active = currentPath === targetPath && currentHash === `#${data.scrollTo}`;
-              } else if (currentPath === targetPath) {
-                // Overview tab: active only when on overview with NO hash or different hash
-                active = !currentHash || currentHash !== '#products-section';
-              } else {
-                // Other tabs: active if path matches
-                active = currentPath === targetPath;
-              }
+            BRANCH_DESKTOP_NAV_ITEMS.map((data, index) => {
+              const baseUrl = getBranchBasePath(pathName);
+              const targetUrl = `${baseUrl}${data.route}`;
+              const active = getBranchNavActive(data, pathName, currentHash);
 
               return (
                 <ul key={index} className="navbar-nav m-md-2 p-md-2 p-1 position-relative">

@@ -7,6 +7,7 @@ import React from 'react';
 import Link from 'next/link';
 import { handleBlogsApi } from '@/api/blogs';
 import { slugify } from '@/lib/utils';
+import { type } from '@/lib/typography';
 
 export default async function ArticlesCard({ branchSlug }) {
     const blogs = await handleBlogsApi();
@@ -22,14 +23,14 @@ export default async function ArticlesCard({ branchSlug }) {
 
     console.log("displayBlogs:", baseArticlesPath);
     return (
-        <div className="w-full py-12">
+        <div className="w-full py-8 sm:py-12">
             {/* Header */}
-            <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                    <h2 className="text-4xl font-bold text-[#252685] mb-2">
+                    <h2 className={`mb-2 ${type.sectionTitle}`}>
                         Latest Articles
                     </h2>
-                    <p className="text-gray-600 mt-2">
+                    <p className={`mt-2 ${type.bodySm}`}>
                         Stay updated with our latest news and insights
                     </p>
                 </div>
@@ -37,7 +38,7 @@ export default async function ArticlesCard({ branchSlug }) {
                 {/* ✅ FIXED View All */}
                 <Link
                     href={baseArticlesPath}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold flex items-center gap-2"
+                    className={`flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-white hover:bg-blue-700 sm:px-6 sm:py-3 ${type.btn}`}
                 >
                     View All Articles
                 </Link>
@@ -78,24 +79,24 @@ export default async function ArticlesCard({ branchSlug }) {
                             </Link>
 
                             {/* Content */}
-                            <div className="p-5">
-                                <p className="text-sm text-gray-500 mb-2">
+                            <div className="p-4 sm:p-5">
+                                <p className={`mb-2 ${type.meta}`}>
                                     {publishDate}
                                 </p>
 
                                 <Link href={articleUrl}>
-                                    <h3 className="text-lg font-bold mb-2 line-clamp-2 hover:text-blue-600">
+                                    <h3 className={`mb-2 line-clamp-2 hover:text-blue-600 ${type.cardTitle}`}>
                                         {blog.title}
                                     </h3>
                                 </Link>
 
-                                <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                                <p className={`mb-4 line-clamp-3 ${type.bodySm}`}>
                                     {blog.description}
                                 </p>
 
                                 <Link
                                     href={articleUrl}
-                                    className="text-blue-600 font-semibold text-sm"
+                                    className={type.link}
                                 >
                                     Read More →
                                 </Link>

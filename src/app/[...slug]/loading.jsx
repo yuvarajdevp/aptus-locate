@@ -1,10 +1,5 @@
-import Loader from '@/components/Loader'
-import React from 'react'
+import SlugRouteLoading from "@/components/skeletons/SlugRouteLoading";
 
-const loading = () => {
-    return (
-        <Loader />
-    )
+export default function DynamicSlugLoading() {
+    return <SlugRouteLoading />;
 }
-
-export default loading

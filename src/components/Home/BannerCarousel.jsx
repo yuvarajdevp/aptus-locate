@@ -13,7 +13,7 @@ const isExternalLink = (url) => /^https?:\/\//i.test(url || "");
 const scrollToSection = (targetId) => {
   const element = document.getElementById(targetId);
   if (!element) return;
-  const headerOffset = 120;
+  const headerOffset = 120; // matches BRANCH_HEADER_SCROLL_OFFSET in branchNav.js
   const top =
     element.getBoundingClientRect().top + window.pageYOffset - headerOffset;
   window.scrollTo({ top, behavior: "smooth" });
@@ -127,7 +127,7 @@ export default function BannerCarousel({ slides = [], scrollTargetId }) {
   }, []);
 
   return (
-    <section className="banner-carousel relative w-full max-w-full overflow-hidden">
+    <section className="banner-carousel relative w-full min-h-[180px] max-w-full overflow-hidden md:min-h-[260px]">
       <Carousel
         responsive={carouselResponsive}
         infinite={!isSingleSlide}

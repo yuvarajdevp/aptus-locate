@@ -1,13 +1,11 @@
-import GalleryPageContent from '@/components/Gallery/GalleryPageContent';
-import BannerDetails from '@/components/Home/BannerDetails';
-export default function Gallery() {
+import GalleryPageContent from "@/components/Gallery/GalleryPageContent";
+import BranchPageBanner from "@/components/Home/BranchPageBanner";
+
+export default async function Gallery({ slug }) {
     return (
-
         <>
-            <BannerDetails />
-            <GalleryPageContent branchSlug="branch-name" />;
+            <BranchPageBanner slug={slug} />
+            <GalleryPageContent branchSlug={slug} />
         </>
-    )
-
-
+    );
 }

@@ -1,25 +1,20 @@
-// ============================================================================
-// 3. app/articles.jsx - Articles List Page (FIXED)
-// ============================================================================
-import React from 'react';
-import ArticlesPageContent from '@/components/Articles/ArticlesPageContent';
-import { handleBlogsApi } from '@/api/blogs';
-import BannerDetails from '@/components/Home/BannerDetails';
+import React from "react";
+import ArticlesPageContent from "@/components/Articles/ArticlesPageContent";
+import BranchPageBanner from "@/components/Home/BranchPageBanner";
+import { handleBlogsApi } from "@/api/blogs";
 
 export default async function Articles({ params }) {
     const slug = params?.slug || [];
-    const branchSlug = slug.slice(0, -1).join('/'); // Remove 'articles' from end
+    const branchSlug = slug.slice(0, -1).join("/");
+    const branchPathSlug = slug[0] || "";
 
     const blogs = await handleBlogsApi();
     const blogsData = blogs?.data || [];
 
     return (
         <>
-            <BannerDetails />
-            <ArticlesPageContent
-                blogsData={blogsData}
-                branchSlug={branchSlug}
-            />
+            <BranchPageBanner slug={branchPathSlug} />
+            <ArticlesPageContent blogsData={blogsData} branchSlug={branchSlug} />
         </>
     );
 }
